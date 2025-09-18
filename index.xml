@@ -6,14 +6,22 @@
     <description>Recent content on Cory J Popp</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 18 Sep 2025 11:07:08 -0400</lastBuildDate>
+    <lastBuildDate>Thu, 18 Sep 2025 10:00:00 -0400</lastBuildDate>
     <atom:link href="https://cpopp9.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>My First Post</title>
-      <link>https://cpopp9.github.io/posts/my-first-post/</link>
-      <pubDate>Thu, 18 Sep 2025 11:07:08 -0400</pubDate>
-      <guid>https://cpopp9.github.io/posts/my-first-post/</guid>
-      <description></description>
+      <title>Creating a Windows 11 Virtual Machine</title>
+      <link>https://cpopp9.github.io/posts/creating-a-windows-11-virtual-machine/</link>
+      <pubDate>Thu, 18 Sep 2025 10:00:00 -0400</pubDate>
+      <guid>https://cpopp9.github.io/posts/creating-a-windows-11-virtual-machine/</guid>
+      <description>&lt;p&gt;Creating a Windows 11 virtual machine (VM) can be straightforward, but as I discovered, there are a few pitfalls that can trip you up. Here’s a summary of my experience and some tips to make your setup smoother.&lt;/p&gt;
+&lt;h2 id=&#34;step-1-prepare-your-system&#34;&gt;Step 1: Prepare Your System&lt;/h2&gt;
+&lt;p&gt;Before creating the VM, make sure your hardware supports virtualization:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;BIOS/UEFI Settings&lt;/strong&gt;: I had to check for &lt;strong&gt;AMD-V SVM Mode&lt;/strong&gt; in my MSI Click BIOS. On some systems, this can be hidden under &lt;code&gt;Advanced CPU Settings&lt;/code&gt; or &lt;code&gt;CPU Features&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Hyper-V Requirements&lt;/strong&gt;: Ensure Hyper-V is enabled in Windows Features. On my first attempt, Hyper-V Services were checked, but the Hyper-V hypervisor was disabled, causing issues during VM creation.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;step-2-create-the-virtual-machine&#34;&gt;Step 2: Create the Virtual Machine&lt;/h2&gt;
+&lt;p&gt;I used Hyper-V to create the VM:&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
