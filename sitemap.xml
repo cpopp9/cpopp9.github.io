@@ -2,16 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://coryjpopp.com/</loc>
-    <lastmod>2025-09-18T10:00:00-04:00</lastmod>
-  </url><url>
-    <loc>https://coryjpopp.com/posts/creating-a-windows-11-virtual-machine/</loc>
-    <lastmod>2025-09-18T10:00:00-04:00</lastmod>
-  </url><url>
-    <loc>https://coryjpopp.com/posts/</loc>
-    <lastmod>2025-09-18T10:00:00-04:00</lastmod>
+    <loc>https://coryjpopp.com/posts/setting-up-a-homelab-for-endpoint-engineering/</loc>
   </url><url>
     <loc>https://coryjpopp.com/categories/</loc>
+  </url><url>
+    <loc>https://coryjpopp.com/</loc>
+  </url><url>
+    <loc>https://coryjpopp.com/posts/</loc>
   </url><url>
     <loc>https://coryjpopp.com/tags/</loc>
   </url>
