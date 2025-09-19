@@ -6,6 +6,21 @@
     <description>Recent content in Categories on Cory J Popp</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
+    <lastBuildDate>Fri, 19 Sep 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://coryjpopp.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Learning</title>
+      <link>https://coryjpopp.com/categories/learning/</link>
+      <pubDate>Fri, 19 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/categories/learning/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tech</title>
+      <link>https://coryjpopp.com/categories/tech/</link>
+      <pubDate>Fri, 19 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/categories/tech/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

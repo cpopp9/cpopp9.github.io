@@ -6,11 +6,12 @@
     <description>Recent content in Posts on Cory J Popp</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
+    <lastBuildDate>Fri, 19 Sep 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://coryjpopp.com/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title></title>
+      <title>Setting up a Homelab for Endpoint Engineering</title>
       <link>https://coryjpopp.com/posts/setting-up-a-homelab-for-endpoint-engineering/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 19 Sep 2025 00:00:00 +0000</pubDate>
       <guid>https://coryjpopp.com/posts/setting-up-a-homelab-for-endpoint-engineering/</guid>
       <description>&lt;h1 id=&#34;setting-up-a-homelab-for-endpoint-engineering&#34;&gt;Setting up a Homelab for Endpoint Engineering&lt;/h1&gt;
 &lt;p&gt;I’ve wanted to really understand Microsoft’s cloud stack for a while, but reading docs and watching tutorials only gets you so far. Things are always shifting: product name changes, services getting folded into one another, best practices evolve. Before long, everything you just learned is out of date.&lt;/p&gt;
