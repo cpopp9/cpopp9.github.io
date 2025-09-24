@@ -6,8 +6,15 @@
     <description>Recent content in Categories on Cory J Popp</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Sep 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 23 Sep 2025 22:19:00 -0400</lastBuildDate>
     <atom:link href="https://coryjpopp.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Homelab Projects</title>
+      <link>https://coryjpopp.com/categories/homelab-projects/</link>
+      <pubDate>Tue, 23 Sep 2025 22:19:00 -0400</pubDate>
+      <guid>https://coryjpopp.com/categories/homelab-projects/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Learning</title>
       <link>https://coryjpopp.com/categories/learning/</link>

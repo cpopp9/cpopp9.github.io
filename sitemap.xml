@@ -3,18 +3,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://coryjpopp.com/categories/</loc>
-    <lastmod>2025-09-19T00:00:00+00:00</lastmod>
+    <lastmod>2025-09-23T22:19:00-04:00</lastmod>
   </url><url>
     <loc>https://coryjpopp.com/</loc>
-    <lastmod>2025-09-19T00:00:00+00:00</lastmod>
+    <lastmod>2025-09-23T22:19:00-04:00</lastmod>
   </url><url>
-    <loc>https://coryjpopp.com/tags/endpoint-engineering/</loc>
-    <lastmod>2025-09-19T00:00:00+00:00</lastmod>
+    <loc>https://coryjpopp.com/posts/deploying-custom-apps-with-intune-via-win32/</loc>
+    <lastmod>2025-09-23T22:19:00-04:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/tags/endpoint-management/</loc>
+    <lastmod>2025-09-23T22:19:00-04:00</lastmod>
   </url><url>
     <loc>https://coryjpopp.com/tags/homelab/</loc>
-    <lastmod>2025-09-19T00:00:00+00:00</lastmod>
+    <lastmod>2025-09-23T22:19:00-04:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/categories/homelab-projects/</loc>
+    <lastmod>2025-09-23T22:19:00-04:00</lastmod>
   </url><url>
     <loc>https://coryjpopp.com/tags/intune/</loc>
+    <lastmod>2025-09-23T22:19:00-04:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/posts/</loc>
+    <lastmod>2025-09-23T22:19:00-04:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/tags/</loc>
+    <lastmod>2025-09-23T22:19:00-04:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/tags/win32/</loc>
+    <lastmod>2025-09-23T22:19:00-04:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/tags/endpoint-engineering/</loc>
     <lastmod>2025-09-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://coryjpopp.com/categories/learning/</loc>
@@ -23,13 +41,7 @@
     <loc>https://coryjpopp.com/tags/microsoft-365/</loc>
     <lastmod>2025-09-19T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://coryjpopp.com/posts/</loc>
-    <lastmod>2025-09-19T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://coryjpopp.com/posts/setting-up-a-homelab-for-endpoint-engineering/</loc>
-    <lastmod>2025-09-19T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://coryjpopp.com/tags/</loc>
     <lastmod>2025-09-19T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://coryjpopp.com/categories/tech/</loc>

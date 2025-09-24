@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Cory J Popp</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Sep 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 23 Sep 2025 22:19:00 -0400</lastBuildDate>
     <atom:link href="https://coryjpopp.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploying Custom Apps with Intune via Win32</title>
+      <link>https://coryjpopp.com/posts/deploying-custom-apps-with-intune-via-win32/</link>
+      <pubDate>Tue, 23 Sep 2025 22:19:00 -0400</pubDate>
+      <guid>https://coryjpopp.com/posts/deploying-custom-apps-with-intune-via-win32/</guid>
+      <description>Testing Win32 app deployment in Intune using 7-Zip as a custom installer. A hands-on homelab experiment in automation and detection logic.</description>
+    </item>
     <item>
       <title>Setting up a Homelab for Endpoint Engineering</title>
       <link>https://coryjpopp.com/posts/setting-up-a-homelab-for-endpoint-engineering/</link>

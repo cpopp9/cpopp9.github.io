@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Win32 on Cory J Popp</title>
+    <link>https://coryjpopp.com/tags/win32/</link>
+    <description>Recent content in Win32 on Cory J Popp</description>
+    <generator>Hugo -- 0.150.0</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 23 Sep 2025 22:19:00 -0400</lastBuildDate>
+    <atom:link href="https://coryjpopp.com/tags/win32/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploying Custom Apps with Intune via Win32</title>
+      <link>https://coryjpopp.com/posts/deploying-custom-apps-with-intune-via-win32/</link>
+      <pubDate>Tue, 23 Sep 2025 22:19:00 -0400</pubDate>
+      <guid>https://coryjpopp.com/posts/deploying-custom-apps-with-intune-via-win32/</guid>
+      <description>Testing Win32 app deployment in Intune using 7-Zip as a custom installer. A hands-on homelab experiment in automation and detection logic.</description>
+    </item>
+  </channel>
+</rss>

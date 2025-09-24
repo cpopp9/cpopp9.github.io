@@ -6,27 +6,41 @@
     <description>Recent content in Tags on Cory J Popp</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Sep 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 23 Sep 2025 22:19:00 -0400</lastBuildDate>
     <atom:link href="https://coryjpopp.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Endpoint Engineering</title>
-      <link>https://coryjpopp.com/tags/endpoint-engineering/</link>
-      <pubDate>Fri, 19 Sep 2025 00:00:00 +0000</pubDate>
-      <guid>https://coryjpopp.com/tags/endpoint-engineering/</guid>
+      <title>Endpoint Management</title>
+      <link>https://coryjpopp.com/tags/endpoint-management/</link>
+      <pubDate>Tue, 23 Sep 2025 22:19:00 -0400</pubDate>
+      <guid>https://coryjpopp.com/tags/endpoint-management/</guid>
       <description></description>
     </item>
     <item>
       <title>Homelab</title>
       <link>https://coryjpopp.com/tags/homelab/</link>
-      <pubDate>Fri, 19 Sep 2025 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 23 Sep 2025 22:19:00 -0400</pubDate>
       <guid>https://coryjpopp.com/tags/homelab/</guid>
       <description></description>
     </item>
     <item>
       <title>Intune</title>
       <link>https://coryjpopp.com/tags/intune/</link>
-      <pubDate>Fri, 19 Sep 2025 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 23 Sep 2025 22:19:00 -0400</pubDate>
       <guid>https://coryjpopp.com/tags/intune/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Win32</title>
+      <link>https://coryjpopp.com/tags/win32/</link>
+      <pubDate>Tue, 23 Sep 2025 22:19:00 -0400</pubDate>
+      <guid>https://coryjpopp.com/tags/win32/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Endpoint Engineering</title>
+      <link>https://coryjpopp.com/tags/endpoint-engineering/</link>
+      <pubDate>Fri, 19 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/tags/endpoint-engineering/</guid>
       <description></description>
     </item>
     <item>
