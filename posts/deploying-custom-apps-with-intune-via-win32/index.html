@@ -184,7 +184,7 @@
 <p>Automating that process is what got me interested in endpoint engineering in the first place. Being able to deploy and patch software automatically not only saves time, but also gives end users a smoother, more consistent experience.</p>
 <p>After setting up my homelab and enrolling a few apps (Word on Windows 11, Outlook on iOS), I wanted to see how Intune handles custom applications — the kind that aren’t available in either app store.</p>
 <p>That led me to the <a href="https://github.com/Microsoft/Microsoft-Win32-Content-Prep-Tool">Win32 Content Prep Tool</a>, a utility that wraps installers (<code>.exe</code>, <code>.msi</code>, scripts, etc.) into a format Intune can deploy. It compresses your installer and any required files into a <code>.intunewin</code> package that can be uploaded and assigned to users or devices.</p>
-<p><img alt="Successful 7-Zip installation" loading="lazy" src="../img/install-success.png">
+<p><img alt="Successful 7-Zip installation" loading="lazy" src="https://coryjpopp.com/img/install-success.png">
 <em>Figure 1: 7-Zip deployed successfully to VM</em></p>
 <p>I used it to deploy 7-Zip to my Windows 11 VMs and watched the notification pop up confirming a successful install — always a good feeling. It got me thinking about how far this can go: customizing app settings, repackaging them, and deploying tailored versions across the environment.</p>
 <p>I didn’t go too deep with this scenario, but I wanted to test the full flow — from creating the install package, setting up the app in Intune, observing the install from the end-user’s perspective, and validating detection logic to make sure everything was registering properly in the dashboard.</p>
