@@ -6,20 +6,48 @@
     <description>Recent content in Tags on Cory J Popp</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Sep 2025 22:19:00 -0400</lastBuildDate>
+    <lastBuildDate>Tue, 30 Sep 2025 09:00:00 -0400</lastBuildDate>
     <atom:link href="https://coryjpopp.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Endpoint Management</title>
-      <link>https://coryjpopp.com/tags/endpoint-management/</link>
-      <pubDate>Tue, 23 Sep 2025 22:19:00 -0400</pubDate>
-      <guid>https://coryjpopp.com/tags/endpoint-management/</guid>
+      <title>Endpoint Engineering</title>
+      <link>https://coryjpopp.com/tags/endpoint-engineering/</link>
+      <pubDate>Tue, 30 Sep 2025 09:00:00 -0400</pubDate>
+      <guid>https://coryjpopp.com/tags/endpoint-engineering/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ESP32</title>
+      <link>https://coryjpopp.com/tags/esp32/</link>
+      <pubDate>Tue, 30 Sep 2025 09:00:00 -0400</pubDate>
+      <guid>https://coryjpopp.com/tags/esp32/</guid>
       <description></description>
     </item>
     <item>
       <title>Homelab</title>
       <link>https://coryjpopp.com/tags/homelab/</link>
-      <pubDate>Tue, 23 Sep 2025 22:19:00 -0400</pubDate>
+      <pubDate>Tue, 30 Sep 2025 09:00:00 -0400</pubDate>
       <guid>https://coryjpopp.com/tags/homelab/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>IoT</title>
+      <link>https://coryjpopp.com/tags/iot/</link>
+      <pubDate>Tue, 30 Sep 2025 09:00:00 -0400</pubDate>
+      <guid>https://coryjpopp.com/tags/iot/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Reliability</title>
+      <link>https://coryjpopp.com/tags/reliability/</link>
+      <pubDate>Tue, 30 Sep 2025 09:00:00 -0400</pubDate>
+      <guid>https://coryjpopp.com/tags/reliability/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Endpoint Management</title>
+      <link>https://coryjpopp.com/tags/endpoint-management/</link>
+      <pubDate>Tue, 23 Sep 2025 22:19:00 -0400</pubDate>
+      <guid>https://coryjpopp.com/tags/endpoint-management/</guid>
       <description></description>
     </item>
     <item>
@@ -34,13 +62,6 @@
       <link>https://coryjpopp.com/tags/win32/</link>
       <pubDate>Tue, 23 Sep 2025 22:19:00 -0400</pubDate>
       <guid>https://coryjpopp.com/tags/win32/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Endpoint Engineering</title>
-      <link>https://coryjpopp.com/tags/endpoint-engineering/</link>
-      <pubDate>Fri, 19 Sep 2025 00:00:00 +0000</pubDate>
-      <guid>https://coryjpopp.com/tags/endpoint-engineering/</guid>
       <description></description>
     </item>
     <item>

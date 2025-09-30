@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Cory J Popp</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Sep 2025 22:19:00 -0400</lastBuildDate>
+    <lastBuildDate>Tue, 30 Sep 2025 09:00:00 -0400</lastBuildDate>
     <atom:link href="https://coryjpopp.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>From Bus Stops to Endpoints: Lessons in Reliability</title>
+      <link>https://coryjpopp.com/posts/from-bus-stops-to-endpoints_-lessons-in-reliability/</link>
+      <pubDate>Tue, 30 Sep 2025 09:00:00 -0400</pubDate>
+      <guid>https://coryjpopp.com/posts/from-bus-stops-to-endpoints_-lessons-in-reliability/</guid>
+      <description>A tiny ESP32 bus-time display project shows why fallback, retries, and communication are just as critical in endpoint engineering as they are in IoT gadgets.</description>
+    </item>
     <item>
       <title>Deploying Custom Apps with Intune via Win32</title>
       <link>https://coryjpopp.com/posts/deploying-custom-apps-with-intune-via-win32/</link>

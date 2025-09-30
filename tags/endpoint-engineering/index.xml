@@ -6,8 +6,15 @@
     <description>Recent content in Endpoint Engineering on Cory J Popp</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Sep 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 30 Sep 2025 09:00:00 -0400</lastBuildDate>
     <atom:link href="https://coryjpopp.com/tags/endpoint-engineering/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>From Bus Stops to Endpoints: Lessons in Reliability</title>
+      <link>https://coryjpopp.com/posts/from-bus-stops-to-endpoints_-lessons-in-reliability/</link>
+      <pubDate>Tue, 30 Sep 2025 09:00:00 -0400</pubDate>
+      <guid>https://coryjpopp.com/posts/from-bus-stops-to-endpoints_-lessons-in-reliability/</guid>
+      <description>A tiny ESP32 bus-time display project shows why fallback, retries, and communication are just as critical in endpoint engineering as they are in IoT gadgets.</description>
+    </item>
     <item>
       <title>Setting up a Homelab for Endpoint Engineering</title>
       <link>https://coryjpopp.com/posts/setting-up-a-homelab-for-endpoint-engineering/</link>
