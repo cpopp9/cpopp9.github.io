@@ -2,10 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://coryjpopp.com/categories/</loc>
-    <lastmod>2025-09-30T09:00:00-04:00</lastmod>
+    <loc>https://coryjpopp.com/posts/building-my-first-home-media-server-what-i-learned/</loc>
+    <lastmod>2025-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/tags/career/</loc>
+    <lastmod>2025-11-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://coryjpopp.com/</loc>
+    <lastmod>2025-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/tags/docker/</loc>
+    <lastmod>2025-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/tags/home-server/</loc>
+    <lastmod>2025-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/tags/linux/</loc>
+    <lastmod>2025-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/tags/plex/</loc>
+    <lastmod>2025-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/posts/</loc>
+    <lastmod>2025-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/tags/self-hosting/</loc>
+    <lastmod>2025-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/tags/</loc>
+    <lastmod>2025-11-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://coryjpopp.com/categories/</loc>
     <lastmod>2025-09-30T09:00:00-04:00</lastmod>
   </url><url>
     <loc>https://coryjpopp.com/tags/endpoint-engineering/</loc>
@@ -26,16 +53,10 @@
     <loc>https://coryjpopp.com/tags/iot/</loc>
     <lastmod>2025-09-30T09:00:00-04:00</lastmod>
   </url><url>
-    <loc>https://coryjpopp.com/posts/</loc>
-    <lastmod>2025-09-30T09:00:00-04:00</lastmod>
-  </url><url>
     <loc>https://coryjpopp.com/categories/projects/</loc>
     <lastmod>2025-09-30T09:00:00-04:00</lastmod>
   </url><url>
     <loc>https://coryjpopp.com/tags/reliability/</loc>
-    <lastmod>2025-09-30T09:00:00-04:00</lastmod>
-  </url><url>
-    <loc>https://coryjpopp.com/tags/</loc>
     <lastmod>2025-09-30T09:00:00-04:00</lastmod>
   </url><url>
     <loc>https://coryjpopp.com/posts/deploying-custom-apps-with-intune-via-win32/</loc>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Building My First Home Media Server: What I Learned | Cory J Popp</title>
+<meta name="keywords" content="home server, docker, linux, self-hosting, plex, career">
+<meta name="description" content="How a simple Plex setup turned into a deep dive into Docker, Linux servers, and real-world IT experience.">
+<meta name="author" content="">
+<link rel="canonical" href="https://coryjpopp.com/posts/building-my-first-home-media-server-what-i-learned/">
+<link crossorigin="anonymous" href="https://coryjpopp.com/assets/css/stylesheet.b8c5fe199b6ed7d82f8d796745cb75f1db5c0e80089bf3c900c156f7941e8838.css" integrity="sha256-uMX&#43;GZtu19gvjXlnRct18dtcDoAIm/PJAMFW95QeiDg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://coryjpopp.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://coryjpopp.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://coryjpopp.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://coryjpopp.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://coryjpopp.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://coryjpopp.com/posts/building-my-first-home-media-server-what-i-learned/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:url" content="https://coryjpopp.com/posts/building-my-first-home-media-server-what-i-learned/">
+  <meta property="og:site_name" content="Cory J Popp">
+  <meta property="og:title" content="Building My First Home Media Server: What I Learned">
+  <meta property="og:description" content="How a simple Plex setup turned into a deep dive into Docker, Linux servers, and real-world IT experience.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-11T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-11-11T00:00:00+00:00">
+    <meta property="article:tag" content="Home Server">
+    <meta property="article:tag" content="Docker">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Self-Hosting">
+    <meta property="article:tag" content="Plex">
+    <meta property="article:tag" content="Career">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Building My First Home Media Server: What I Learned">
+<meta name="twitter:description" content="How a simple Plex setup turned into a deep dive into Docker, Linux servers, and real-world IT experience.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://coryjpopp.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Building My First Home Media Server: What I Learned",
+      "item": "https://coryjpopp.com/posts/building-my-first-home-media-server-what-i-learned/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Building My First Home Media Server: What I Learned",
+  "name": "Building My First Home Media Server: What I Learned",
+  "description": "How a simple Plex setup turned into a deep dive into Docker, Linux servers, and real-world IT experience.",
+  "keywords": [
+    "home server", "docker", "linux", "self-hosting", "plex", "career"
+  ],
+  "articleBody": "\nFigure: Real time home server monitoring with glance dashboard.\nI got really into building a home server this month, and honestly, it turned into way more than I expected.\nIt started simple - I wanted to digitize my old DVD collection and have everything in one place. But once I started researching, I realized this was a perfect chance to learn Docker, Linux server management, and all the technologies I’ve been wanting to get more hands-on experience with.\nWhy I Built It Myself I could have bought a Synology NAS and called it a day. They cost around $400 and everything just works, but where’s the learning in that?\nI wanted to actually understand:\nHow Linux servers work How Docker containers talk to each other Why services crash and how to fix them How to set up monitoring so I know when things break Plus, I wanted to build something that would genuinely grow my technical skills - managing a fleet of Docker containers teaches a lot more than buying a prebuilt NAS.\nThe Hardware Figure: Minisforum UN100P mini pc running headless.\nI went with a cheap refurbished mini PC - a Minisforum UN100P for $105.\nIt’s tiny, silent, and uses around 6 watts of power at idle.\nSpecs:\nIntel N100 processor 16GB RAM 512GB storage Runs headless (no monitor needed) Could I have gone for something with more performance headroom? Sure. But this is plenty for what I needed, and it was cheap enough that if I messed up completely, I wouldn’t feel terrible about it.\nThe Software Stack This is where it got interesting. I’m running Ubuntu Server (no GUI, just command line), and everything runs in Docker containers.\nWhat’s running:\nPlex (the actual media server) A few management tools to keep everything organized Monitoring dashboards so I can see what’s happening Some automation to handle transcoding and repetitive tasks Why Docker? Because if something breaks, I can just restart that one container instead of the whole server.\nPlus, Docker is widely used in production environments, so it’s great hands-on experience.\nWhat I Actually Learned Docker networking is confusing at first.\nI spent an entire day figuring out why containers couldn’t talk to each other. Turns out I needed to create a custom network. Once I got it, it made sense.\nHealth checks are important.\nServices would show as “running” but weren’t actually working. I learned to add health checks so Docker knows if something’s actually broken.\nSet resource limits on everything.\nOne service had a memory leak and took down the whole server. Now everything has CPU and RAM limits so one bad service can’t kill everything else.\nMonitoring from the start.\nI added monitoring tools after things started breaking. Should have done that on day one.\nDocument everything.\nI kept notes as I went, and when something broke weeks later, those notes saved me hours of troubleshooting.\nThe Struggles Not gonna lie, there were some frustrating moments:\nSpent 3 hours troubleshooting networking before realizing I had a typo in the config Had a storage issue where the system only saw 100GB instead of 512GB (still haven’t fixed that) One service kept crashing on startup — turned out it was starting before its dependencies were ready What’s Next I’m planning to set up remote access via Cloudflare Tunnel so I can access it from anywhere. Right now, it only works on my home network.\nI’ll also need to fix that storage issue (likely a partition problem), and should really automate my backups instead of doing them manually.\nA task for another day.\nWhy This Matters for My Career This project gave me hands-on experience with:\nLinux server administration Docker and containerization Network configuration Troubleshooting production-like systems Infrastructure monitoring It’s rewarding to see how much this overlaps with what professionals do in DevOps and system administration - managing containers, troubleshooting, and keeping systems stable\nPlus, it’s running 24/7 with minimal issues which feels pretty good.\nFinal Thoughts Is this overkill for organizing some videos? Probably.\nBut I learned more in one month of actually doing this than I would have from watching tutorials or reading documentation.\nBreaking things and fixing them is how you actually learn.\nIf you’re thinking about building something similar - just start. You’ll mess up, Google a lot, and learn way more than you expected.\n",
+  "wordCount" : "721",
+  "inLanguage": "en",
+  "datePublished": "2025-11-11T00:00:00Z",
+  "dateModified": "2025-11-11T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://coryjpopp.com/posts/building-my-first-home-media-server-what-i-learned/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Cory J Popp",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://coryjpopp.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://coryjpopp.com/" accesskey="h" title="Cory J Popp (Alt + H)">Cory J Popp</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Building My First Home Media Server: What I Learned
+    </h1>
+    <div class="post-description">
+      How a simple Plex setup turned into a deep dive into Docker, Linux servers, and real-world IT experience.
+    </div>
+    <div class="post-meta"><span title='2025-11-11 00:00:00 +0000 UTC'>November 11, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p><img alt="Home Server Dashboard." loading="lazy" src="https://coryjpopp.com/img/home-server-dashboard.png"></p>
+<p><em>Figure: Real time home server monitoring with glance dashboard.</em></p>
+<p>I got really into building a home server this month, and honestly, it turned into way more than I expected.</p>
+<p>It started simple - I wanted to digitize my old DVD collection and have everything in one place. But once I started researching, I realized this was a perfect chance to learn Docker, Linux server management, and all the technologies I’ve been wanting to get more hands-on experience with.</p>
+<hr>
+<h3 id="why-i-built-it-myself">Why I Built It Myself<a hidden class="anchor" aria-hidden="true" href="#why-i-built-it-myself">#</a></h3>
+<p>I could have bought a Synology NAS and called it a day. They cost around $400 and everything just works, but where&rsquo;s the learning in that?</p>
+<p>I wanted to actually understand:</p>
+<ul>
+<li>How Linux servers work</li>
+<li>How Docker containers talk to each other</li>
+<li>Why services crash and how to fix them</li>
+<li>How to set up monitoring so I know when things break</li>
+</ul>
+<p>Plus, I wanted to build something that would genuinely grow my technical skills - managing a fleet of Docker containers teaches a lot more than buying a prebuilt NAS.</p>
+<hr>
+<h3 id="the-hardware">The Hardware<a hidden class="anchor" aria-hidden="true" href="#the-hardware">#</a></h3>
+<p><img alt="Minisforum UN100P mini pc." loading="lazy" src="https://coryjpopp.com/img/home-server-mini-pc.png"></p>
+<p><em>Figure: Minisforum UN100P mini pc running headless.</em></p>
+<p>I went with a cheap refurbished mini PC - a <a href="https://refurbished.minisforum.com/products/minisforum-un100p-refurbished?srsltid=AfmBOorqnxM8fppU3T7yFvIXwrTsnAB90l8BWAtfcmay_gfhlaVTPiG6"><strong>Minisforum UN100P</strong></a> for $105.</p>
+<p>It&rsquo;s tiny, silent, and uses around 6 watts of power at idle.</p>
+<p><strong>Specs:</strong></p>
+<ul>
+<li>Intel N100 processor</li>
+<li>16GB RAM</li>
+<li>512GB storage</li>
+<li>Runs headless (no monitor needed)</li>
+</ul>
+<p>Could I have gone for something with more performance headroom? Sure. But this is plenty for what I needed, and it was cheap enough that if I messed up completely, I wouldn&rsquo;t feel terrible about it.</p>
+<hr>
+<h3 id="the-software-stack">The Software Stack<a hidden class="anchor" aria-hidden="true" href="#the-software-stack">#</a></h3>
+<p>This is where it got interesting. I&rsquo;m running <strong>Ubuntu Server</strong> (no GUI, just command line), and everything runs in <strong>Docker containers</strong>.</p>
+<p><strong>What&rsquo;s running:</strong></p>
+<ul>
+<li>Plex (the actual media server)</li>
+<li>A few management tools to keep everything organized</li>
+<li>Monitoring dashboards so I can see what&rsquo;s happening</li>
+<li>Some automation to handle transcoding and repetitive tasks</li>
+</ul>
+<p>Why Docker? Because if something breaks, I can just restart that one container instead of the whole server.</p>
+<p>Plus, Docker is widely used in production environments, so it’s great hands-on experience.</p>
+<hr>
+<h3 id="what-i-actually-learned">What I Actually Learned<a hidden class="anchor" aria-hidden="true" href="#what-i-actually-learned">#</a></h3>
+<ul>
+<li>
+<p><strong>Docker networking is confusing at first.</strong><br>
+I spent an entire day figuring out why containers couldn&rsquo;t talk to each other. Turns out I needed to create a custom network. Once I got it, it made sense.</p>
+</li>
+<li>
+<p><strong>Health checks are important.</strong><br>
+Services would show as &ldquo;running&rdquo; but weren&rsquo;t actually working. I learned to add health checks so Docker knows if something&rsquo;s actually broken.</p>
+</li>
+<li>
+<p><strong>Set resource limits on everything.</strong><br>
+One service had a memory leak and took down the whole server. Now everything has CPU and RAM limits so one bad service can&rsquo;t kill everything else.</p>
+</li>
+<li>
+<p><strong>Monitoring from the start.</strong><br>
+I added monitoring tools after things started breaking. Should have done that on day one.</p>
+</li>
+<li>
+<p><strong>Document everything.</strong><br>
+I kept notes as I went, and when something broke weeks later, those notes saved me hours of troubleshooting.</p>
+</li>
+</ul>
+<hr>
+<h3 id="the-struggles">The Struggles<a hidden class="anchor" aria-hidden="true" href="#the-struggles">#</a></h3>
+<p>Not gonna lie, there were some frustrating moments:</p>
+<ul>
+<li>Spent 3 hours troubleshooting networking before realizing I had a typo in the config</li>
+<li>Had a storage issue where the system only saw 100GB instead of 512GB (still haven&rsquo;t fixed that)</li>
+<li>One service kept crashing on startup — turned out it was starting before its dependencies were ready</li>
+</ul>
+<hr>
+<h3 id="whats-next">What&rsquo;s Next<a hidden class="anchor" aria-hidden="true" href="#whats-next">#</a></h3>
+<p>I&rsquo;m planning to set up <strong>remote access via Cloudflare Tunnel</strong> so I can access it from anywhere. Right now, it only works on my home network.</p>
+<p>I&rsquo;ll also need to fix that storage issue (likely a partition problem), and should really automate my backups instead of doing them manually.</p>
+<p>A task for another day.</p>
+<hr>
+<h3 id="why-this-matters-for-my-career">Why This Matters for My Career<a hidden class="anchor" aria-hidden="true" href="#why-this-matters-for-my-career">#</a></h3>
+<p>This project gave me hands-on experience with:</p>
+<ul>
+<li>Linux server administration</li>
+<li>Docker and containerization</li>
+<li>Network configuration</li>
+<li>Troubleshooting production-like systems</li>
+<li>Infrastructure monitoring</li>
+</ul>
+<p>It’s rewarding to see how much this overlaps with what professionals do in DevOps and system administration - managing containers, troubleshooting, and keeping systems stable</p>
+<p>Plus, it&rsquo;s running 24/7 with minimal issues which feels pretty good.</p>
+<hr>
+<h3 id="final-thoughts">Final Thoughts<a hidden class="anchor" aria-hidden="true" href="#final-thoughts">#</a></h3>
+<p>Is this overkill for organizing some videos? Probably.</p>
+<p>But I learned more in one month of actually doing this than I would have from watching tutorials or reading documentation.</p>
+<p>Breaking things and fixing them is how you actually learn.</p>
+<p>If you&rsquo;re thinking about building something similar - just start. You&rsquo;ll mess up, Google a lot, and learn way more than you expected.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://coryjpopp.com/tags/home-server/">Home Server</a></li>
+      <li><a href="https://coryjpopp.com/tags/docker/">Docker</a></li>
+      <li><a href="https://coryjpopp.com/tags/linux/">Linux</a></li>
+      <li><a href="https://coryjpopp.com/tags/self-hosting/">Self-Hosting</a></li>
+      <li><a href="https://coryjpopp.com/tags/plex/">Plex</a></li>
+      <li><a href="https://coryjpopp.com/tags/career/">Career</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="https://coryjpopp.com/">Cory J Popp</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

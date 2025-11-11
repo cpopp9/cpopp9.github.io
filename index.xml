@@ -6,8 +6,15 @@
     <description>Recent content on Cory J Popp</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 30 Sep 2025 09:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Tue, 11 Nov 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://coryjpopp.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building My First Home Media Server: What I Learned</title>
+      <link>https://coryjpopp.com/posts/building-my-first-home-media-server-what-i-learned/</link>
+      <pubDate>Tue, 11 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/posts/building-my-first-home-media-server-what-i-learned/</guid>
+      <description>How a simple Plex setup turned into a deep dive into Docker, Linux servers, and real-world IT experience.</description>
+    </item>
     <item>
       <title>From Bus Stops to Endpoints: Lessons in Reliability</title>
       <link>https://coryjpopp.com/posts/from-bus-stops-to-endpoints_-lessons-in-reliability/</link>
