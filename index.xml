@@ -6,8 +6,15 @@
     <description>Recent content on Cory J Popp</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 11 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 13 Dec 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://coryjpopp.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building a Production-Grade Active Directory Lab</title>
+      <link>https://coryjpopp.com/posts/building-a-production-grade-active-directory-lab/</link>
+      <pubDate>Sat, 13 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/posts/building-a-production-grade-active-directory-lab/</guid>
+      <description>Designing and operating a realistic Active Directory homelab to practice automation, recovery, and enterprise-scale decision-making.</description>
+    </item>
     <item>
       <title>Building My First Home Media Server: What I Learned</title>
       <link>https://coryjpopp.com/posts/building-my-first-home-media-server-what-i-learned/</link>

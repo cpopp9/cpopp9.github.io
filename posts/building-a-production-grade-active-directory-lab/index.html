@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Building a Production-Grade Active Directory Lab | Cory J Popp</title>
+<meta name="keywords" content="homelab, active-directory, windows-server, powershell, systems-administration">
+<meta name="description" content="Designing and operating a realistic Active Directory homelab to practice automation, recovery, and enterprise-scale decision-making.">
+<meta name="author" content="">
+<link rel="canonical" href="https://coryjpopp.com/posts/building-a-production-grade-active-directory-lab/">
+<link crossorigin="anonymous" href="https://coryjpopp.com/assets/css/stylesheet.b8c5fe199b6ed7d82f8d796745cb75f1db5c0e80089bf3c900c156f7941e8838.css" integrity="sha256-uMX&#43;GZtu19gvjXlnRct18dtcDoAIm/PJAMFW95QeiDg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://coryjpopp.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://coryjpopp.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://coryjpopp.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://coryjpopp.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://coryjpopp.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://coryjpopp.com/posts/building-a-production-grade-active-directory-lab/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:url" content="https://coryjpopp.com/posts/building-a-production-grade-active-directory-lab/">
+  <meta property="og:site_name" content="Cory J Popp">
+  <meta property="og:title" content="Building a Production-Grade Active Directory Lab">
+  <meta property="og:description" content="Designing and operating a realistic Active Directory homelab to practice automation, recovery, and enterprise-scale decision-making.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-12-13T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-12-13T00:00:00+00:00">
+    <meta property="article:tag" content="Homelab">
+    <meta property="article:tag" content="Active-Directory">
+    <meta property="article:tag" content="Windows-Server">
+    <meta property="article:tag" content="Powershell">
+    <meta property="article:tag" content="Systems-Administration">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Building a Production-Grade Active Directory Lab">
+<meta name="twitter:description" content="Designing and operating a realistic Active Directory homelab to practice automation, recovery, and enterprise-scale decision-making.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://coryjpopp.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Building a Production-Grade Active Directory Lab",
+      "item": "https://coryjpopp.com/posts/building-a-production-grade-active-directory-lab/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Building a Production-Grade Active Directory Lab",
+  "name": "Building a Production-Grade Active Directory Lab",
+  "description": "Designing and operating a realistic Active Directory homelab to practice automation, recovery, and enterprise-scale decision-making.",
+  "keywords": [
+    "homelab", "active-directory", "windows-server", "powershell", "systems-administration"
+  ],
+  "articleBody": "After transitioning into IT support, I became increasingly interested in the systems that underpin enterprise environments.\nActive Directory plays a central role in identity, authentication, and access control, but understanding it at a deeper level requires hands-on experience beyond day-to-day support tasks.\nTo develop that experience, I built a production-grade Active Directory lab at home - an environment where I can design architectures, test automation, intentionally break things, and rebuild them without risk to production systems.\nRather than treating this as a theoretical exercise, I wanted a homelab that mirrors the kinds of challenges found in real enterprise environments.\nThe goal wasn’t just to stand up Active Directory and call it “working,” but to use it as a platform for practicing core systems administration skills, including:\nDesigning organizational unit and group structures that scale Automating user provisioning and lifecycle workflows Understanding the real-world impact of Group Policy design Testing backup, recovery, and failure scenarios Practicing decision-making from a systems administrator’s perspective, not just end-user support A homelab provides something production environments can’t: the freedom to experiment, make mistakes, and rebuild repeatedly without risk to users or business operations.\nThat freedom is what turns configuration knowledge into operational understanding.\nThe Hardware: Keeping It Realistic Figure: Leveno ThinkCentre Tiny M720q running Windows Server 2022\nI’m running this lab on a Lenovo ThinkCentre Tiny M720q, a small form factor PC I picked up used. It’s modest hardware by design, but capable enough to run multiple infrastructure services simultaneously.\nCurrent setup:\nCPU: Intel Core i5 RAM: 16GB (enough to run multiple VMs comfortably) Storage: 512GB SSD Hypervisor: Windows Server 2022 with Hyper-V Network: Gigabit Ethernet with DHCP reservation This system isn’t dedicated to a single role. The intent is to host a small but realistic set of core enterprise services - ie. Active Directory, DNS, DHCP, file services, and supporting infrastructure - each running in its own virtual machine where appropriate.\nWhy Hyper-V? Figure: DC01 running as a VM on Hyper-V\nIn production environments, core services like domain controllers, file servers, and infrastructure roles are almost always virtualized. Using Hyper-V allows me to mirror that reality while gaining practical experience with:\nVM lifecycle management Service isolation and role separation Backup, restore, and recovery workflows Safe change testing via checkpoints Snapshots (checkpoints) let me make invasive changes, test failure scenarios, and roll back cleanly - something that simply isn’t possible with physical-only deployments.\nThis keeps the lab grounded in real-world practices. I’m not optimizing for convenience or shortcuts; I’m building and operating it the way these systems are typically deployed in enterprise environments.\nDesigning the Active Directory Structure Figure: University Structure in AD\nOne of the advantages of a homelab is that the organization itself is hypothetical. There’s no production impact, no political baggage, and no legacy constraints - which makes it a surprisingly fun space to think through design decisions and see how they play out.\nI chose to model a mid-sized university because it naturally introduces complexity without being contrived. Universities sit in an interesting middle ground: they’re large enough to require structure and delegation, but diverse enough that a single approach doesn’t fit everyone.\nThe split between staff and faculty alone creates meaningful design challenges. Staff roles tend to be stable, department-driven, and policy-heavy. Faculty roles are more fluid, often spanning departments, research groups, and shared resources. That difference shows up immediately in how accounts, groups, and policies need to be designed.\nFrom there, the model opens the door to realistic scenarios:\nResearch staff needing access to specific network shares Faculty belonging to multiple departments or projects Shared lab computers with different policy requirements Administrative staff with strict access controls Service accounts supporting departmental applications To support those scenarios, I built the following Active Directory structure:\nUniversity ├── Staff │ ├── IT Services │ ├── Human Resources │ ├── Facilities \u0026 Maintenance │ ├── Library Services │ ├── Administrative Services │ └── Academic Services ├── Faculty │ ├── School of Engineering │ │ └── Computer Science │ ├── College of Arts \u0026 Sciences │ │ ├── English Department │ │ └── Mathematics Department │ └── School of Business ├── Computers │ ├── Faculty Workstations │ ├── Staff Workstations │ ├── Computer Labs │ └── Servers ├── Groups │ ├── Staff Groups │ ├── Faculty Groups │ └── Resource Access Groups └── Service Accounts The goal here wasn’t to create a “perfect” OU hierarchy, but to give myself a flexible framework that supports real-world ambiguity. The structure is complex enough to force tradeoffs, but simple enough that changes are easy to reason about and test.\nBecause it’s a lab, I can restructure, refactor, and start over as many times as I want - each iteration sharpening my understanding of how design decisions ripple outward into policy application, group management, and access control.\nUser Provisioning, Automation, and Recovery Testing I started by creating a small number of users manually through the Active Directory Users and Computers GUI. That part was intentional. It helped reinforce how objects are structured, how attributes are set, and what the default experience looks like before introducing automation.\nManual creation, however, was never the end goal. Most of the scenarios I wanted to test - scale, failure, recovery - only make sense when users are created and removed in bulk.\nMoving to Automation Figure: AD Bulk Creation Script Running\nTo simulate realistic environments, I needed a way to rapidly add and remove large numbers of users. I used a CSV-driven PowerShell workflow to populate the directory with hundreds of accounts at once.\nThe scripts themselves were AI-assisted and adapted to fit the lab, which meant my focus wasn’t on authoring PowerShell from scratch, but on:\nUnderstanding what the scripts were doing Reviewing logic and safety checks Adjusting inputs and structure to match my OU and group design Observing the impact on Active Directory at scale That distinction matters in practice: automation is a tool, and knowing how to apply, validate, and safely use it is often more important than writing every line by hand.\nThe workflow allowed me to:\nCreate users in bulk with consistent naming conventions Assign department metadata and group memberships Populate the directory quickly enough to make failure scenarios meaningful Why Bulk Operations Matter Once the directory contained several hundred users, I could test situations that simply don’t come up in small labs.\nOne example was simulating a serious administrative mistake: an entire department being deleted.\nRather than restoring the full virtual machine, I intentionally approached recovery the way it would typically be handled in a production environment.\nRecovery Testing with System State Backups Figure: Windows Server Backup\nBefore testing failure scenarios, I created regular system state backups using Windows Server Backup. This mirrors how Active Directory is commonly protected in environments with multiple domain controllers, where system state backups are more frequent and practical than full VM restores.\nTo recover from the simulated deletion, I used Directory Services Restore Mode (DSRM) and performed an authoritative restore of the affected objects from the system state backup. This is the recovery method Active Directory is designed around in multi-DC environments, where replication behavior and object versioning matter.\nWorking through that process reinforced several important concepts:\nThe difference between full server recovery and directory-level recovery When authoritative vs. non-authoritative restores are appropriate How Active Directory replication interacts with restored objects Why backup strategy matters as much as backup existence More importantly, it gave me a safe place to make destructive mistakes and fully understand the recovery path without impacting real users or systems.\nWhy This Approach Was Valuable The combination of:\nManual GUI work Bulk automation Intentional failure Directory-level recovery turned Active Directory from something I interacted with passively into something I could reason about operationally.\nThis wasn’t about creating users faster for its own sake. It was about understanding how the directory behaves at scale, how mistakes propagate, and how to recover cleanly when something goes wrong - where breaking things was not only acceptable, but the point.\nWhat Comes Next This Active Directory deployment is just the starting point. The real value of the lab is how it fits into a larger, evolving environment where services depend on one another and failures have downstream effects.\nOver time, I plan to use this domain controller as the identity backbone for additional virtual machines and services, including:\nFile servers with role-based access to departmental shares DNS and DHCP infrastructure tied into Active Directory Group-based access control to network resources Service accounts supporting applications and background jobs With that foundation in place, I want to explore more operational scenarios that don’t show up in small or isolated labs:\nMonitoring directory health, replication, and authentication events Auditing access and understanding how group changes affect permissions Testing policy changes and observing unintended consequences Simulating account lifecycle events across multiple dependent systems As the environment grows, so does the opportunity to practice thinking holistically - not just about individual services, but about how they interact, fail, and recover together.\nMore than anything, this lab gives me a space to learn deliberately. I can experiment, make mistakes, revisit design decisions, and refine them over time. Each iteration adds context that’s hard to get from documentation alone.\nI plan to continue expanding this environment incrementally, documenting what works, what breaks, and what I learn along the way.\n",
+  "wordCount" : "1552",
+  "inLanguage": "en",
+  "datePublished": "2025-12-13T00:00:00Z",
+  "dateModified": "2025-12-13T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://coryjpopp.com/posts/building-a-production-grade-active-directory-lab/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Cory J Popp",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://coryjpopp.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://coryjpopp.com/" accesskey="h" title="Cory J Popp (Alt + H)">Cory J Popp</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Building a Production-Grade Active Directory Lab
+    </h1>
+    <div class="post-meta"><span title='2025-12-13 00:00:00 +0000 UTC'>December 13, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>After transitioning into IT support, I became increasingly interested in the systems that underpin enterprise environments.</p>
+<p>Active Directory plays a central role in identity, authentication, and access control, but understanding it at a deeper level requires hands-on experience beyond day-to-day support tasks.</p>
+<p>To develop that experience, I built a production-grade Active Directory lab at home - an environment where I can design architectures, test automation, intentionally break things, and rebuild them without risk to production systems.</p>
+<p>Rather than treating this as a theoretical exercise, I wanted a homelab that mirrors the kinds of challenges found in real enterprise environments.</p>
+<p>The goal wasn’t just to stand up Active Directory and call it “working,” but to use it as a platform for practicing core systems administration skills, including:</p>
+<ul>
+<li>Designing organizational unit and group structures that scale</li>
+<li>Automating user provisioning and lifecycle workflows</li>
+<li>Understanding the real-world impact of Group Policy design</li>
+<li>Testing backup, recovery, and failure scenarios</li>
+<li>Practicing decision-making from a systems administrator’s perspective, not just end-user support</li>
+</ul>
+<p>A homelab provides something production environments can’t: the freedom to experiment, make mistakes, and rebuild repeatedly without risk to users or business operations.</p>
+<p>That freedom is what turns configuration knowledge into operational understanding.</p>
+<hr>
+<h2 id="the-hardware-keeping-it-realistic">The Hardware: Keeping It Realistic<a hidden class="anchor" aria-hidden="true" href="#the-hardware-keeping-it-realistic">#</a></h2>
+<p><img alt="Windows Server Homelab." loading="lazy" src="https://coryjpopp.com/img/Lenovo_ThinkCentre_Tiny_M720q.png"></p>
+<p><em>Figure: Leveno ThinkCentre Tiny M720q running Windows Server 2022</em></p>
+<p>I’m running this lab on a <strong>Lenovo ThinkCentre Tiny M720q</strong>, a small form factor PC I picked up used. It’s modest hardware by design, but capable enough to run multiple infrastructure services simultaneously.</p>
+<p><strong>Current setup:</strong></p>
+<ul>
+<li><strong>CPU:</strong> Intel Core i5</li>
+<li><strong>RAM:</strong> 16GB (enough to run multiple VMs comfortably)</li>
+<li><strong>Storage:</strong> 512GB SSD</li>
+<li><strong>Hypervisor:</strong> Windows Server 2022 with Hyper-V</li>
+<li><strong>Network:</strong> Gigabit Ethernet with DHCP reservation</li>
+</ul>
+<p>This system isn’t dedicated to a single role. The intent is to host a small but realistic set of core enterprise services - ie. Active Directory, DNS, DHCP, file services, and supporting infrastructure - each running in its own virtual machine where appropriate.</p>
+<h3 id="why-hyper-v">Why Hyper-V?<a hidden class="anchor" aria-hidden="true" href="#why-hyper-v">#</a></h3>
+<p><img alt="DC01 running as a VM on Hyper-V" loading="lazy" src="https://coryjpopp.com/img/DC01_on_hyperV.png"></p>
+<p><em>Figure: DC01 running as a VM on Hyper-V</em></p>
+<p>In production environments, core services like domain controllers, file servers, and infrastructure roles are almost always virtualized. Using Hyper-V allows me to mirror that reality while gaining practical experience with:</p>
+<ul>
+<li>VM lifecycle management</li>
+<li>Service isolation and role separation</li>
+<li>Backup, restore, and recovery workflows</li>
+<li>Safe change testing via checkpoints</li>
+</ul>
+<p>Snapshots (checkpoints) let me make invasive changes, test failure scenarios, and roll back cleanly - something that simply isn’t possible with physical-only deployments.</p>
+<p>This keeps the lab grounded in real-world practices. I’m not optimizing for convenience or shortcuts; I’m building and operating it the way these systems are typically deployed in enterprise environments.</p>
+<hr>
+<h2 id="designing-the-active-directory-structure">Designing the Active Directory Structure<a hidden class="anchor" aria-hidden="true" href="#designing-the-active-directory-structure">#</a></h2>
+<p><img alt="University Structure in AD" loading="lazy" src="https://coryjpopp.com/img/University_Structure_in_AD.png"></p>
+<p><em>Figure: University Structure in AD</em></p>
+<p>One of the advantages of a homelab is that the organization itself is hypothetical. There’s no production impact, no political baggage, and no legacy constraints - which makes it a surprisingly fun space to think through design decisions and see how they play out.</p>
+<p>I chose to model a <strong>mid-sized university</strong> because it naturally introduces complexity without being contrived. Universities sit in an interesting middle ground: they’re large enough to require structure and delegation, but diverse enough that a single approach doesn’t fit everyone.</p>
+<p>The split between <strong>staff and faculty</strong> alone creates meaningful design challenges. Staff roles tend to be stable, department-driven, and policy-heavy. Faculty roles are more fluid, often spanning departments, research groups, and shared resources. That difference shows up immediately in how accounts, groups, and policies need to be designed.</p>
+<p>From there, the model opens the door to realistic scenarios:</p>
+<ul>
+<li>Research staff needing access to specific network shares</li>
+<li>Faculty belonging to multiple departments or projects</li>
+<li>Shared lab computers with different policy requirements</li>
+<li>Administrative staff with strict access controls</li>
+<li>Service accounts supporting departmental applications</li>
+</ul>
+<p>To support those scenarios, I built the following Active Directory structure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>University
+</span></span><span style="display:flex;"><span>├── Staff
+</span></span><span style="display:flex;"><span>│   ├── IT Services
+</span></span><span style="display:flex;"><span>│   ├── Human Resources
+</span></span><span style="display:flex;"><span>│   ├── Facilities &amp; Maintenance
+</span></span><span style="display:flex;"><span>│   ├── Library Services
+</span></span><span style="display:flex;"><span>│   ├── Administrative Services
+</span></span><span style="display:flex;"><span>│   └── Academic Services
+</span></span><span style="display:flex;"><span>├── Faculty
+</span></span><span style="display:flex;"><span>│   ├── School of Engineering
+</span></span><span style="display:flex;"><span>│   │   └── Computer Science
+</span></span><span style="display:flex;"><span>│   ├── College of Arts &amp; Sciences
+</span></span><span style="display:flex;"><span>│   │   ├── English Department
+</span></span><span style="display:flex;"><span>│   │   └── Mathematics Department
+</span></span><span style="display:flex;"><span>│   └── School of Business
+</span></span><span style="display:flex;"><span>├── Computers
+</span></span><span style="display:flex;"><span>│   ├── Faculty Workstations
+</span></span><span style="display:flex;"><span>│   ├── Staff Workstations
+</span></span><span style="display:flex;"><span>│   ├── Computer Labs
+</span></span><span style="display:flex;"><span>│   └── Servers
+</span></span><span style="display:flex;"><span>├── Groups
+</span></span><span style="display:flex;"><span>│   ├── Staff Groups
+</span></span><span style="display:flex;"><span>│   ├── Faculty Groups
+</span></span><span style="display:flex;"><span>│   └── Resource Access Groups
+</span></span><span style="display:flex;"><span>└── Service Accounts
+</span></span></code></pre></div><p>The goal here wasn&rsquo;t to create a &ldquo;perfect&rdquo; OU hierarchy, but to give myself a flexible framework that supports real-world ambiguity. The structure is complex enough to force tradeoffs, but simple enough that changes are easy to reason about and test.</p>
+<p>Because it&rsquo;s a lab, I can restructure, refactor, and start over as many times as I want - each iteration sharpening my understanding of how design decisions ripple outward into policy application, group management, and access control.</p>
+<hr>
+<h2 id="user-provisioning-automation-and-recovery-testing">User Provisioning, Automation, and Recovery Testing<a hidden class="anchor" aria-hidden="true" href="#user-provisioning-automation-and-recovery-testing">#</a></h2>
+<p>I started by creating a small number of users manually through the Active Directory Users and Computers GUI. That part was intentional. It helped reinforce how objects are structured, how attributes are set, and what the default experience looks like before introducing automation.</p>
+<p>Manual creation, however, was never the end goal. Most of the scenarios I wanted to test - scale, failure, recovery - only make sense when users are created and removed in bulk.</p>
+<h3 id="moving-to-automation">Moving to Automation<a hidden class="anchor" aria-hidden="true" href="#moving-to-automation">#</a></h3>
+<p><img alt="AD Bulk Creation Script Running" loading="lazy" src="https://coryjpopp.com/img/AD_Bulk_Creation_Script.gif"></p>
+<p><em>Figure: AD Bulk Creation Script Running</em></p>
+<p>To simulate realistic environments, I needed a way to rapidly add and remove large numbers of users. I used a CSV-driven PowerShell workflow to populate the directory with hundreds of accounts at once.</p>
+<p>The scripts themselves were AI-assisted and adapted to fit the lab, which meant my focus wasn&rsquo;t on authoring PowerShell from scratch, but on:</p>
+<ul>
+<li>Understanding what the scripts were doing</li>
+<li>Reviewing logic and safety checks</li>
+<li>Adjusting inputs and structure to match my OU and group design</li>
+<li>Observing the impact on Active Directory at scale</li>
+</ul>
+<p>That distinction matters in practice: automation is a tool, and knowing how to apply, validate, and safely use it is often more important than writing every line by hand.</p>
+<p>The workflow allowed me to:</p>
+<ul>
+<li>Create users in bulk with consistent naming conventions</li>
+<li>Assign department metadata and group memberships</li>
+<li>Populate the directory quickly enough to make failure scenarios meaningful</li>
+</ul>
+<h3 id="why-bulk-operations-matter">Why Bulk Operations Matter<a hidden class="anchor" aria-hidden="true" href="#why-bulk-operations-matter">#</a></h3>
+<p>Once the directory contained several hundred users, I could test situations that simply don&rsquo;t come up in small labs.</p>
+<p>One example was simulating a serious administrative mistake: an entire department being deleted.</p>
+<p>Rather than restoring the full virtual machine, I intentionally approached recovery the way it would typically be handled in a production environment.</p>
+<h3 id="recovery-testing-with-system-state-backups">Recovery Testing with System State Backups<a hidden class="anchor" aria-hidden="true" href="#recovery-testing-with-system-state-backups">#</a></h3>
+<p><img alt="Windows Server Backup" loading="lazy" src="https://coryjpopp.com/img/Windows_Server_Backup.png"></p>
+<p><em>Figure: Windows Server Backup</em></p>
+<p>Before testing failure scenarios, I created regular system state backups using Windows Server Backup. This mirrors how Active Directory is commonly protected in environments with multiple domain controllers, where system state backups are more frequent and practical than full VM restores.</p>
+<p>To recover from the simulated deletion, I used Directory Services Restore Mode (DSRM) and performed an authoritative restore of the affected objects from the system state backup. This is the recovery method Active Directory is designed around in multi-DC environments, where replication behavior and object versioning matter.</p>
+<p>Working through that process reinforced several important concepts:</p>
+<ul>
+<li>The difference between full server recovery and directory-level recovery</li>
+<li>When authoritative vs. non-authoritative restores are appropriate</li>
+<li>How Active Directory replication interacts with restored objects</li>
+<li>Why backup strategy matters as much as backup existence</li>
+</ul>
+<p>More importantly, it gave me a safe place to make destructive mistakes and fully understand the recovery path without impacting real users or systems.</p>
+<h3 id="why-this-approach-was-valuable">Why This Approach Was Valuable<a hidden class="anchor" aria-hidden="true" href="#why-this-approach-was-valuable">#</a></h3>
+<p>The combination of:</p>
+<ul>
+<li>Manual GUI work</li>
+<li>Bulk automation</li>
+<li>Intentional failure</li>
+<li>Directory-level recovery</li>
+</ul>
+<p>turned Active Directory from something I interacted with passively into something I could reason about operationally.</p>
+<p>This wasn&rsquo;t about creating users faster for its own sake. It was about understanding how the directory behaves at scale, how mistakes propagate, and how to recover cleanly when something goes wrong - where breaking things was not only acceptable, but the point.</p>
+<hr>
+<h2 id="what-comes-next">What Comes Next<a hidden class="anchor" aria-hidden="true" href="#what-comes-next">#</a></h2>
+<p>This Active Directory deployment is just the starting point. The real value of the lab is how it fits into a larger, evolving environment where services depend on one another and failures have downstream effects.</p>
+<p>Over time, I plan to use this domain controller as the identity backbone for additional virtual machines and services, including:</p>
+<ul>
+<li>File servers with role-based access to departmental shares</li>
+<li>DNS and DHCP infrastructure tied into Active Directory</li>
+<li>Group-based access control to network resources</li>
+<li>Service accounts supporting applications and background jobs</li>
+</ul>
+<p>With that foundation in place, I want to explore more operational scenarios that don&rsquo;t show up in small or isolated labs:</p>
+<ul>
+<li>Monitoring directory health, replication, and authentication events</li>
+<li>Auditing access and understanding how group changes affect permissions</li>
+<li>Testing policy changes and observing unintended consequences</li>
+<li>Simulating account lifecycle events across multiple dependent systems</li>
+</ul>
+<p>As the environment grows, so does the opportunity to practice thinking holistically - not just about individual services, but about how they interact, fail, and recover together.</p>
+<p>More than anything, this lab gives me a space to learn deliberately. I can experiment, make mistakes, revisit design decisions, and refine them over time. Each iteration adds context that&rsquo;s hard to get from documentation alone.</p>
+<p>I plan to continue expanding this environment incrementally, documenting what works, what breaks, and what I learn along the way.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://coryjpopp.com/tags/homelab/">Homelab</a></li>
+      <li><a href="https://coryjpopp.com/tags/active-directory/">Active-Directory</a></li>
+      <li><a href="https://coryjpopp.com/tags/windows-server/">Windows-Server</a></li>
+      <li><a href="https://coryjpopp.com/tags/powershell/">Powershell</a></li>
+      <li><a href="https://coryjpopp.com/tags/systems-administration/">Systems-Administration</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="https://coryjpopp.com/">Cory J Popp</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

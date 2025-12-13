@@ -6,8 +6,43 @@
     <description>Recent content in Tags on Cory J Popp</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 11 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 13 Dec 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://coryjpopp.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Active-Directory</title>
+      <link>https://coryjpopp.com/tags/active-directory/</link>
+      <pubDate>Sat, 13 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/tags/active-directory/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Homelab</title>
+      <link>https://coryjpopp.com/tags/homelab/</link>
+      <pubDate>Sat, 13 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/tags/homelab/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Powershell</title>
+      <link>https://coryjpopp.com/tags/powershell/</link>
+      <pubDate>Sat, 13 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/tags/powershell/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Systems-Administration</title>
+      <link>https://coryjpopp.com/tags/systems-administration/</link>
+      <pubDate>Sat, 13 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/tags/systems-administration/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Windows-Server</title>
+      <link>https://coryjpopp.com/tags/windows-server/</link>
+      <pubDate>Sat, 13 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/tags/windows-server/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Career</title>
       <link>https://coryjpopp.com/tags/career/</link>
@@ -62,13 +97,6 @@
       <link>https://coryjpopp.com/tags/esp32/</link>
       <pubDate>Tue, 30 Sep 2025 09:00:00 -0400</pubDate>
       <guid>https://coryjpopp.com/tags/esp32/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Homelab</title>
-      <link>https://coryjpopp.com/tags/homelab/</link>
-      <pubDate>Tue, 30 Sep 2025 09:00:00 -0400</pubDate>
-      <guid>https://coryjpopp.com/tags/homelab/</guid>
       <description></description>
     </item>
     <item>
