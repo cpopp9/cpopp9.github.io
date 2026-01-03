@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Securing Active Directory with Group Policy | Cory J Popp</title>
+<meta name="keywords" content="Active Directory, Group Policy, Windows Server, Homelab, Security">
+<meta name="description" content="In my previous post, I built an Active Directory environment with 500&#43; users across 26 organizational units - modeled after a university with different schools and departments.
+Building that structure was step one. But an organized AD environment without Group Policy doesn&rsquo;t actually do much outside of authenticating users.
+That&rsquo;s what this post is about: taking that AD structure and using it to implement real security policies. I configured 10 different Group Policies covering everything from domain-wide password requirements to locking down public computer labs.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/securing_active_directory_with_group_policy__from_structure_to_implementation/">
+<link crossorigin="anonymous" href="http://localhost:1313/assets/css/stylesheet.b8c5fe199b6ed7d82f8d796745cb75f1db5c0e80089bf3c900c156f7941e8838.css" integrity="sha256-uMX&#43;GZtu19gvjXlnRct18dtcDoAIm/PJAMFW95QeiDg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/securing_active_directory_with_group_policy__from_structure_to_implementation/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:url" content="http://localhost:1313/posts/securing_active_directory_with_group_policy__from_structure_to_implementation/">
+  <meta property="og:site_name" content="Cory J Popp">
+  <meta property="og:title" content="Securing Active Directory with Group Policy">
+  <meta property="og:description" content="In my previous post, I built an Active Directory environment with 500&#43; users across 26 organizational units - modeled after a university with different schools and departments.
+Building that structure was step one. But an organized AD environment without Group Policy doesn’t actually do much outside of authenticating users.
+That’s what this post is about: taking that AD structure and using it to implement real security policies. I configured 10 different Group Policies covering everything from domain-wide password requirements to locking down public computer labs.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-02T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-01-02T00:00:00+00:00">
+    <meta property="article:tag" content="Active Directory">
+    <meta property="article:tag" content="Group Policy">
+    <meta property="article:tag" content="Windows-Server">
+    <meta property="article:tag" content="Homelab">
+    <meta property="article:tag" content="Security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Securing Active Directory with Group Policy">
+<meta name="twitter:description" content="In my previous post, I built an Active Directory environment with 500&#43; users across 26 organizational units - modeled after a university with different schools and departments.
+Building that structure was step one. But an organized AD environment without Group Policy doesn&rsquo;t actually do much outside of authenticating users.
+That&rsquo;s what this post is about: taking that AD structure and using it to implement real security policies. I configured 10 different Group Policies covering everything from domain-wide password requirements to locking down public computer labs.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Securing Active Directory with Group Policy",
+      "item": "http://localhost:1313/posts/securing_active_directory_with_group_policy__from_structure_to_implementation/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Securing Active Directory with Group Policy",
+  "name": "Securing Active Directory with Group Policy",
+  "description": "In my previous post, I built an Active Directory environment with 500+ users across 26 organizational units - modeled after a university with different schools and departments.\nBuilding that structure was step one. But an organized AD environment without Group Policy doesn\u0026rsquo;t actually do much outside of authenticating users.\nThat\u0026rsquo;s what this post is about: taking that AD structure and using it to implement real security policies. I configured 10 different Group Policies covering everything from domain-wide password requirements to locking down public computer labs.\n",
+  "keywords": [
+    "Active Directory", "Group Policy", "Windows Server", "Homelab", "Security"
+  ],
+  "articleBody": "In my previous post, I built an Active Directory environment with 500+ users across 26 organizational units - modeled after a university with different schools and departments.\nBuilding that structure was step one. But an organized AD environment without Group Policy doesn’t actually do much outside of authenticating users.\nThat’s what this post is about: taking that AD structure and using it to implement real security policies. I configured 10 different Group Policies covering everything from domain-wide password requirements to locking down public computer labs.\nThe reason I structured the AD the way I did was specifically for this - different OUs need different security policies. Faculty handles student data that needs protection. IT staff needs administrative tools. Computer labs are shared spaces with high malware risk. Each OU gets targeted policies based on its actual security requirements.\nI’ll walk through the policies I implemented, why I configured them the way I did, and the lessons I learned along the way that weren’t as intuitive as I hoped. Things like why drive mappings silently fail if folders don’t exist, or why some policies need a reboot versus just running gpupdate.\nThis isn’t a step-by-step tutorial - there are plenty of those already. Instead, I’m documenting the thinking behind each policy decision and the practical lessons from actually implementing them in a realistic environment.\nThe Lab Environment Quick recap of what I’m working with, since the AD structure directly impacts how these policies get applied.\nI’ve got a Windows Server 2022 domain controller running this homelab.local domain with a realistic university organizational structure:\nUniversity ├── Staff │ ├── IT Services │ ├── Human Resources │ ├── Facilities \u0026 Maintenance │ ├── Library Services │ ├── Administrative Services │ └── Academic Services ├── Faculty │ ├── School of Engineering │ │ └── Computer Science │ ├── College of Arts \u0026 Sciences │ │ ├── English Department │ │ └── Mathematics Department │ └── School of Business ├── Computers │ ├── Faculty Workstations │ ├── Staff Workstations │ ├── Computer Labs │ └── Servers ├── Groups │ ├── Staff Groups │ ├── Faculty Groups │ └── Resource Access Groups └── Service Accounts All told, 26 organizational units with 500+ user accounts with realistic names, departments, and titles. I also created 16 security groups for things like “All-Faculty,” “IT-Admins,” “Department-Chairs,” and resource access groups.\nThe client side is a Windows 10 Enterprise VM that I can move between OUs to test different policies. This matters - I need to test policies as Faculty users, IT users, and Students to see how the restrictions actually apply.\nThe Security Strategy I organized the policies into three layers based on scope and risk level. The approach was: establish a domain-wide security baseline first, then add role-specific restrictions based on what each group actually needs to do their job.\nLayer 1: Domain-Wide Foundation These policies apply to everyone in the domain - Faculty, Staff, Students, IT, etc, and create a baseline for security.\nPassword Policy This one’s straightforward but fundamental. I configured the Default Domain Policy with:\n12 character minimum Complexity requirements enabled (uppercase, lowercase, numbers, special characters) 90 day maximum password age 1 day minimum age (prevents users from cycling through password history) 24 password history (can’t reuse last 24 passwords) The reasoning: passwords are still the primary authentication method for most environments. Yeah, everyone hates password requirements, but a compromised account with a weak password is how most breaches start. The 1-day minimum is specifically to prevent people from changing their password 24 times in a row to get back to their original one - a very possible scenario.\nAccount Lockout Policy Same GPO, configured:\nLock account after 5 failed login attempts 30 minute lockout duration Reset counter after 30 minutes This prevents brute force attacks. Someone trying to guess passwords will get 5 tries and then hit a wall. In production, you’d tune these numbers based on your environment - some places do 3 attempts, some do 10. I went with 5 as a reasonable middle ground. The 30 minute duration is long enough to slow down attackers but short enough that legitimate users who mistype their password aren’t locked out all day.\nAudit Policy I enabled auditing for:\nAccount logon events (success and failure) Logon events (success and failure) Account management (success and failure) Directory service access (success and failure) Policy change (success and failure) The “why” here is visibility. Without audit logging, you have no idea what’s happening in your environment. Failed logins tell you someone’s trying to access accounts they shouldn’t. Successful logins give you a timeline for incident investigation. Account management changes show you who’s creating/deleting users. Policy changes track who’s modifying GPOs.\nI tested this by intentionally entering wrong passwords and then checking Event Viewer on the DC. Event ID 4625 showed up with the failed attempt, including which computer it came from and what account was targeted. That’s the kind of visibility you need when something goes wrong.\nLayer 2: Role-Based Policies This is where the OU structure really matters. Different roles have different security needs and different risk profiles.\nFaculty Policies Faculty members handle student data (grades, attendance records, etc) that require a certain level of data protection. I created policies linked to the Faculty OU that apply to all three schools underneath.\n15-minute screen lock: Uses the “Interactive logon: Machine inactivity limit” setting. After 15 minutes idle, the session locks. This prevents someone from walking up to an unattended faculty computer and accessing student records. It’s longer than what I set for shared labs (5 minutes) but shorter than what most users would prefer, because the data sensitivity requires it.\nUSB storage restrictions: I blocked all removable storage using the Removable Storage Access policies. USB flash drives and external hard drives are disabled. Keyboards and mice still work because they’re a different device class.\nI blocked USB devices to prevent the spread of malware if an infected drive was plugged in, and to make it more difficult for sensitive data to leave the site.\nFolder redirection and drive mapping: This is about automatic backups and data protection. I set up folder redirection to point users’ Documents folders to network storage (\\\\DC01\\UserData$\\username\\Documents) and mapped their H: drive to a personal home directory (\\\\DC01\\HomeDirectories$\\username).\nThe benefit is twofold: users’ important files are automatically saved to the server where they’re backed up, and they can access their files from any computer they log into. It’s transparent to the user - they just save to Documents like always, but behind the scenes it’s going to network storage.\nThe catch I ran into: the folders have to already exist. Group Policy doesn’t create them automatically. I had to manually create the folder structure for test users before I could get it to work.\nIn a production environment, I would write a PowerShell script to pre-create those home directories for all users.\nIT Services Policies IT staff need the opposite approach - minimal restrictions because they need access to administrative tools.\nI created a policy linked to the IT Services OU that explicitly allows:\nCommand Prompt access PowerShell execution Control Panel access No USB restrictions The key here is that because this policy is linked to the IT Services OU only, restrictive policies linked elsewhere (like Faculty or Computer Labs) don’t affect them. This is where the OU separation really pays off - IT staff can do their jobs without fighting against security policies designed for regular users.\nStandard Staff Policies For non-IT staff departments (HR, Academic Services, Administrative Services, Library Services, Facilities), I created a middle-ground policy:\n10-minute screen lock (tighter than Faculty because they handle more administrative data) Control Panel access blocked (they shouldn’t be changing system settings) Run menu removed from Start Menu (reduces attack surface) This applies to most staff users who need to do their jobs but don’t need administrative access to their computers. It’s tighter than what Faculty gets but nowhere near as locked down as student computers.\nHR \u0026 Academic Services - Maximum Data Protection These two departments got extra restrictions because they handle the most sensitive data - HR has employee SSNs and salary information, Academic Services has student records and enrollment data.\nI configured:\nAll removable storage completely blocked (not just USB - everything) Folder redirection for Documents, Desktop, Downloads, AND Pictures (more aggressive than regular Faculty) Same 10-minute screen lock as other staff The more sensitive the data you have access to, the more tighter restrictions are required. Multiple folders redirected means less chance of sensitive files sitting on local drives. Complete removable storage blocking means data can’t easily walk out the door.\nLayer 3: Endpoint Hardening - Computer Labs This is the big one. Computer labs are shared, public-facing computers with the highest risk profile:\nStudents you don’t know using them Potential for malware from downloads or USB drives System configuration changes that require reimaging Privacy concerns (previous user’s data still accessible) I created a policy linked to the Computer Labs OU with maximum lockdown:\n5-minute aggressive screen lock: Way tighter than anywhere else because these are shared computers. Student walks away for a few minutes, session needs to lock so the next person can’t access their stuff.\nControl Panel completely removed: Students shouldn’t be changing display settings, uninstalling software, or accessing system configuration.\nCommand Prompt and PowerShell disabled: Prevents students from running scripts, accessing system files, or trying to bypass other restrictions.\nRegistry Editor blocked: Same reasoning - students don’t need to modify the Windows registry.\nSoftware Restriction Policies: I configured path rules to block execution of .exe, .msi, .bat, .vbs, and .ps1 files from the Downloads folder. Students can download files for their work, but they can’t execute them. This prevents “I downloaded this cool program from the internet” situations that end with malware.\nWindows Update access removed: Students shouldn’t be triggering Windows updates in the middle of a class period. IT controls when lab computers update.\nThe result is a computer that students can use for legitimate schoolwork - Microsoft Office, web browsers, installed educational software - but can’t break, infect with malware, or use to compromise other systems.\nTesting this was actually pretty satisfying. I moved my Windows 10 client into the Computer Labs OU, rebooted it, and tried everything:\nControl panel, command prompt, registry editor, and downloaded .exe files were all blocked.\nEvery restriction worked exactly as intended. It’s the kind of lockdown you’d actually see in university computer labs, library public computers, or any shared endpoint environment.\nThe Pattern That Emerged Looking at all these policies together, the pattern became clear: risk-based security.\nDomain-wide policies establish the baseline (everyone gets strong passwords and audit logging) Role-based policies add restrictions based on data sensitivity (Faculty protects FERPA data, HR protects PII) Endpoint-based policies account for the environment (shared computers get maximum lockdown) Privilege-based policies allow flexibility where needed (IT gets tools, everyone else doesn’t) This is how you’d actually implement GP in production. You don’t just randomly apply policies - you think about what each group does, what data they access, what tools they need, and what the risk profile is. Then you configure policies that protect the organization while letting people do their jobs.\nLessons Learned Implementing these policies taught me several things that Microsoft documentation doesn’t really cover. These are the practical lessons that came from actually doing the work, not just reading about it.\nOUs Are Not Security Groups This was my first major confusion. I kept thinking “I want this policy to apply to all Faculty members, so I’ll target the All-Faculty security group.”\nThat’s not how Group Policy works.\nGPOs link to Organizational Units, not groups. The policy applies to whatever user or computer objects physically exist in that OU. Security groups control resource permissions (who can access files, printers, etc.), not policy application.\nI figured this out when I tried to create a drive mapping policy “for the All-Faculty group” and couldn’t find any way to target it. Eventually I realized: the policy needs to be linked to the Faculty OU, and it will apply to everyone in that OU hierarchy because they’re physically located there in Active Directory.\nThis changed how I thought about AD structure. The OU hierarchy isn’t just organizational - it’s your policy targeting mechanism.\nComputer Configuration vs User Configuration Some settings can go in either place, and I initially didn’t understand when to use which.\nComputer Configuration settings apply to the computer itself, regardless of who logs in:\nMachine inactivity limits (screen lock) USB restrictions Windows Update settings Software installation User Configuration settings apply to the user, regardless of which computer they log into:\nDrive mappings Folder redirection Desktop wallpaper Application settings I made the mistake of putting screen lock timeout in User Configuration first. It didn’t work. Moved it to Computer Configuration under Security Options, and suddenly it worked fine.\nThe rule I eventually figured out: if it’s about the physical computer or system-level security, it’s Computer Configuration. If it’s about the user’s experience or their data, it’s User Configuration.\nPolicy Application Timing is Messy This one frustrated me for a while. I’d configure a policy, run gpupdate /force on the client, and… nothing would happen. Or some things would work but others wouldn’t.\nHere’s what I learned:\nComputer Configuration policies typically require a reboot to take effect. You can run gpupdate /force but until you restart the computer, many settings won’t apply. This is especially true for USB restrictions, software restriction policies, and security settings.\nUser Configuration policies usually need you to log off and back on. Running gpupdate /force while staying logged in will apply some things but not others. Folder redirection, for example, only happens at logon.\nSome policies are even more specific: Drive mappings need a fresh logon. Folder redirection not only needs a logon but also requires the target folders to already exist.\nThe practical lesson: when testing policies, my workflow became:\nConfigure the policy on the DC On the client: gpupdate /force Reboot the client (not just log off/on) Log in as a test user Check if the policy applied If I skipped the reboot step, I’d waste time troubleshooting policies that were actually configured correctly - they just hadn’t applied yet.\nDrive Mapping Fails Silently This one cost me about two hours of troubleshooting.\nI configured a drive mapping policy for Faculty: map H: drive to \\\\DC01\\HomeDirectories$\\%username%. I tested it with a Faculty user, ran gpupdate /force, logged off and back on. No H: drive appeared.\nI checked the GPO settings: correct. I checked the share permissions: correct. I ran gpresult /r to see applied policies: the GPO was listed as applied. But still no drive.\nFinally I went to the DC and browsed to C:\\HomeDirectories. The folder existed. But there was no subfolder for my test user (crwilson). The drive mapping was trying to connect to \\\\DC01\\HomeDirectories$\\crwilson, but that folder didn’t exist.\nGroup Policy doesn’t create folders automatically. It just tries to map to whatever path you specify. If the path doesn’t exist, the mapping silently fails with no error message to the user.\nI manually created the folder, went back to the client, ran gpupdate /force, and the H: drive appeared instantly.\nIn production, you’d solve this with a PowerShell script that pre-creates home directories for all users with proper permissions. Or you’d use logon scripts to create folders on-demand. But the documentation doesn’t tell you this - it just assumes the folders exist.\nTesting Methodology Matters Early on, I’d configure a policy, test it with one user, see it work, and assume it was good. Then I’d test with a different user type and find it didn’t work the same way.\nI learned to test systematically:\nFor each policy, test with:\nA user from the target OU (should apply) A user from a different OU (should NOT apply) An admin account (should I be exempt? depends on the policy) An IT Services user (typically should be exempt from restrictions) This caught several issues where policies were applying too broadly or not applying where they should.\nAlso learned to check multiple ways:\nDoes the policy show in gpresult /r? (Is it being received?) Does Event Viewer show any policy errors? (Did it fail to apply?) Does the restriction actually work? (Try to violate it) Can you still do legitimate work? (Did you block too much?) More Policies Doesn’t Always Mean More Security I initially went overboard creating separate GPOs for every little thing. “Faculty USB Restrictions,” “Faculty Screen Lock,” “Faculty Drive Mapping” - all separate policies.\nThat became a management nightmare. Too many policies linked to the same OU, harder to troubleshoot conflicts, unclear what was actually applying.\nI consolidated: “Faculty - Security Settings” now contains screen lock, USB restrictions, and basic lockdown settings. “Faculty - Data Protection” contains folder redirection and drive mapping. Two policies instead of five, much easier to manage.\nThe lesson: group related settings into logical GPOs. Don’t create a new policy for every individual setting. Think about policies as “bundles of related configurations” not “one setting per GPO.”\nDocumentation is Your Friend I started documenting every policy as I created it:\nWhat OU it’s linked to What it does Why I configured it that way Any dependencies (like folders needing to exist) Testing notes This became invaluable when troubleshooting. “Wait, why isn’t this working? Let me check my notes… oh right, I need to reboot, not just log off.”\nIt’s also made writing this blog post way easier. I’m not trying to remember what I did three weeks ago - I have notes from when I did it.\nIn production, this would be even more critical. Six months from now, you won’t remember why you configured a specific setting. The next admin who inherits your environment definitely won’t know. Document as you go.\nThe Big Picture The biggest thing I learned: Group Policy is powerful but has a lot of gotchas that aren’t obvious from reading documentation.\nThings that seem like they should “just work” often don’t until you understand the underlying mechanics:\nWhy Computer vs User Configuration matters How OU structure determines application When policies actually take effect What dependencies exist (folders, permissions, etc.) How to properly test and verify That’s the value of actually building this stuff in a lab. You hit all those edge cases, learn the troubleshooting process, and build the mental model of how it all fits together. Reading about Group Policy teaches you the settings. Implementing Group Policy teaches you the system.\nWhat’s Next This completes the security foundation for my Active Directory environment. The policies are configured, tested, and documented. But there’s more to explore:\nHigh availability: Adding a second domain controller to test replication, FSMO roles, and failover scenarios.\nAdvanced authentication: Implementing fine-grained password policies for different user tiers, exploring certificate-based authentication.\nAutomation: Building PowerShell scripts for user provisioning, home directory creation, and compliance reporting.\nDisaster recovery: Testing AD backup/restore procedures, practicing DSRM recovery, documenting the process.\nEach of these represents the next step in building enterprise-ready infrastructure. For now, I’ve got a solid foundation: a well-structured AD environment protected by comprehensive, role-based security policies.\n",
+  "wordCount" : "3192",
+  "inLanguage": "en",
+  "datePublished": "2026-01-02T00:00:00Z",
+  "dateModified": "2026-01-02T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/securing_active_directory_with_group_policy__from_structure_to_implementation/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Cory J Popp",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Cory J Popp (Alt + H)">Cory J Popp</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Securing Active Directory with Group Policy
+    </h1>
+    <div class="post-meta"><span title='2026-01-02 00:00:00 +0000 UTC'>January 2, 2026</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>In my <a href="https://coryjpopp.com/posts/building-a-production-grade-active-directory-lab/">previous post</a>, I built an Active Directory environment with 500+ users across 26 organizational units - modeled after a university with different schools and departments.</p>
+<p>Building that structure was step one. But an organized AD environment without Group Policy doesn&rsquo;t actually do much outside of authenticating users.</p>
+<p>That&rsquo;s what this post is about: taking that AD structure and using it to implement real security policies. I configured 10 different Group Policies covering everything from domain-wide password requirements to locking down public computer labs.</p>
+<p>The reason I structured the AD the way I did was specifically for this - different OUs need different security policies. Faculty handles student data that needs protection. IT staff needs administrative tools. Computer labs are shared spaces with high malware risk. Each OU gets targeted policies based on its actual security requirements.</p>
+<p>I&rsquo;ll walk through the policies I implemented, why I configured them the way I did, and the lessons I learned along the way that weren&rsquo;t as intuitive as I hoped. Things like why drive mappings silently fail if folders don&rsquo;t exist, or why some policies need a reboot versus just running <code>gpupdate</code>.</p>
+<p>This isn&rsquo;t a step-by-step tutorial - there are plenty of those already. Instead, I&rsquo;m documenting the thinking behind each policy decision and the practical lessons from actually implementing them in a realistic environment.</p>
+<h2 id="the-lab-environment">The Lab Environment<a hidden class="anchor" aria-hidden="true" href="#the-lab-environment">#</a></h2>
+<p>Quick recap of what I&rsquo;m working with, since the AD structure directly impacts how these policies get applied.</p>
+<p>I&rsquo;ve got a Windows Server 2022 domain controller running this <code>homelab.local</code> domain with a realistic university organizational structure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>University
+</span></span><span style="display:flex;"><span>├── Staff
+</span></span><span style="display:flex;"><span>│   ├── IT Services
+</span></span><span style="display:flex;"><span>│   ├── Human Resources
+</span></span><span style="display:flex;"><span>│   ├── Facilities &amp; Maintenance
+</span></span><span style="display:flex;"><span>│   ├── Library Services
+</span></span><span style="display:flex;"><span>│   ├── Administrative Services
+</span></span><span style="display:flex;"><span>│   └── Academic Services
+</span></span><span style="display:flex;"><span>├── Faculty
+</span></span><span style="display:flex;"><span>│   ├── School of Engineering
+</span></span><span style="display:flex;"><span>│   │   └── Computer Science
+</span></span><span style="display:flex;"><span>│   ├── College of Arts &amp; Sciences
+</span></span><span style="display:flex;"><span>│   │   ├── English Department
+</span></span><span style="display:flex;"><span>│   │   └── Mathematics Department
+</span></span><span style="display:flex;"><span>│   └── School of Business
+</span></span><span style="display:flex;"><span>├── Computers
+</span></span><span style="display:flex;"><span>│   ├── Faculty Workstations
+</span></span><span style="display:flex;"><span>│   ├── Staff Workstations
+</span></span><span style="display:flex;"><span>│   ├── Computer Labs
+</span></span><span style="display:flex;"><span>│   └── Servers
+</span></span><span style="display:flex;"><span>├── Groups
+</span></span><span style="display:flex;"><span>│   ├── Staff Groups
+</span></span><span style="display:flex;"><span>│   ├── Faculty Groups
+</span></span><span style="display:flex;"><span>│   └── Resource Access Groups
+</span></span><span style="display:flex;"><span>└── Service Accounts
+</span></span></code></pre></div><p>All told, 26 organizational units with 500+ user accounts with realistic names, departments, and titles. I also created 16 security groups for things like &ldquo;All-Faculty,&rdquo; &ldquo;IT-Admins,&rdquo; &ldquo;Department-Chairs,&rdquo; and resource access groups.</p>
+<p>The client side is a Windows 10 Enterprise VM that I can move between OUs to test different policies. This matters - I need to test policies as Faculty users, IT users, and Students to see how the restrictions actually apply.</p>
+<h2 id="the-security-strategy">The Security Strategy<a hidden class="anchor" aria-hidden="true" href="#the-security-strategy">#</a></h2>
+<p>I organized the policies into three layers based on scope and risk level. The approach was: establish a domain-wide security baseline first, then add role-specific restrictions based on what each group actually needs to do their job.</p>
+<h3 id="layer-1-domain-wide-foundation">Layer 1: Domain-Wide Foundation<a hidden class="anchor" aria-hidden="true" href="#layer-1-domain-wide-foundation">#</a></h3>
+<p>These policies apply to everyone in the domain - Faculty, Staff, Students, IT, etc, and create a baseline for security.</p>
+<h4 id="password-policy">Password Policy<a hidden class="anchor" aria-hidden="true" href="#password-policy">#</a></h4>
+<p>This one&rsquo;s straightforward but fundamental. I configured the Default Domain Policy with:</p>
+<ul>
+<li>12 character minimum</li>
+<li>Complexity requirements enabled (uppercase, lowercase, numbers, special characters)</li>
+<li>90 day maximum password age</li>
+<li>1 day minimum age (prevents users from cycling through password history)</li>
+<li>24 password history (can&rsquo;t reuse last 24 passwords)</li>
+</ul>
+<p>The reasoning: passwords are still the primary authentication method for most environments. Yeah, everyone hates password requirements, but a compromised account with a weak password is how most breaches start. The 1-day minimum is specifically to prevent people from changing their password 24 times in a row to get back to their original one - a very possible scenario.</p>
+<h4 id="account-lockout-policy">Account Lockout Policy<a hidden class="anchor" aria-hidden="true" href="#account-lockout-policy">#</a></h4>
+<p>Same GPO, configured:</p>
+<ul>
+<li>Lock account after 5 failed login attempts</li>
+<li>30 minute lockout duration</li>
+<li>Reset counter after 30 minutes</li>
+</ul>
+<p>This prevents brute force attacks. Someone trying to guess passwords will get 5 tries and then hit a wall. In production, you&rsquo;d tune these numbers based on your environment - some places do 3 attempts, some do 10. I went with 5 as a reasonable middle ground. The 30 minute duration is long enough to slow down attackers but short enough that legitimate users who mistype their password aren&rsquo;t locked out all day.</p>
+<h4 id="audit-policy">Audit Policy<a hidden class="anchor" aria-hidden="true" href="#audit-policy">#</a></h4>
+<p>I enabled auditing for:</p>
+<ul>
+<li>Account logon events (success and failure)</li>
+<li>Logon events (success and failure)</li>
+<li>Account management (success and failure)</li>
+<li>Directory service access (success and failure)</li>
+<li>Policy change (success and failure)</li>
+</ul>
+<p>The &ldquo;why&rdquo; here is visibility. Without audit logging, you have no idea what&rsquo;s happening in your environment. Failed logins tell you someone&rsquo;s trying to access accounts they shouldn&rsquo;t. Successful logins give you a timeline for incident investigation. Account management changes show you who&rsquo;s creating/deleting users. Policy changes track who&rsquo;s modifying GPOs.</p>
+<p>I tested this by intentionally entering wrong passwords and then checking Event Viewer on the DC. Event ID 4625 showed up with the failed attempt, including which computer it came from and what account was targeted. That&rsquo;s the kind of visibility you need when something goes wrong.</p>
+<h3 id="layer-2-role-based-policies">Layer 2: Role-Based Policies<a hidden class="anchor" aria-hidden="true" href="#layer-2-role-based-policies">#</a></h3>
+<p>This is where the OU structure really matters. Different roles have different security needs and different risk profiles.</p>
+<h4 id="faculty-policies">Faculty Policies<a hidden class="anchor" aria-hidden="true" href="#faculty-policies">#</a></h4>
+<p>Faculty members handle student data (grades, attendance records, etc) that require a certain level of data protection. I created policies linked to the Faculty OU that apply to all three schools underneath.</p>
+<p><strong>15-minute screen lock:</strong> Uses the &ldquo;Interactive logon: Machine inactivity limit&rdquo; setting. After 15 minutes idle, the session locks. This prevents someone from walking up to an unattended faculty computer and accessing student records. It&rsquo;s longer than what I set for shared labs (5 minutes) but shorter than what most users would prefer, because the data sensitivity requires it.</p>
+<p><strong>USB storage restrictions:</strong> I blocked all removable storage using the Removable Storage Access policies. USB flash drives and external hard drives are disabled. Keyboards and mice still work because they&rsquo;re a different device class.</p>
+<p>I blocked USB devices to prevent the spread of malware if an infected drive was plugged in, and to make it more difficult for sensitive data to leave the site.</p>
+<p><strong>Folder redirection and drive mapping:</strong> This is about automatic backups and data protection. I set up folder redirection to point users&rsquo; Documents folders to network storage (<code>\\DC01\UserData$\username\Documents</code>) and mapped their H: drive to a personal home directory (<code>\\DC01\HomeDirectories$\username</code>).</p>
+<p>The benefit is twofold: users&rsquo; important files are automatically saved to the server where they&rsquo;re backed up, and they can access their files from any computer they log into. It&rsquo;s transparent to the user - they just save to Documents like always, but behind the scenes it&rsquo;s going to network storage.</p>
+<p>The catch I ran into: the folders have to already exist. Group Policy doesn&rsquo;t create them automatically. I had to manually create the folder structure for test users before I could get it to work.</p>
+<p>In a production environment, I would write a PowerShell script to pre-create those home directories for all users.</p>
+<h4 id="it-services-policies">IT Services Policies<a hidden class="anchor" aria-hidden="true" href="#it-services-policies">#</a></h4>
+<p>IT staff need the opposite approach - minimal restrictions because they need access to administrative tools.</p>
+<p>I created a policy linked to the IT Services OU that explicitly allows:</p>
+<ul>
+<li>Command Prompt access</li>
+<li>PowerShell execution</li>
+<li>Control Panel access</li>
+<li>No USB restrictions</li>
+</ul>
+<p>The key here is that because this policy is linked to the IT Services OU only, restrictive policies linked elsewhere (like Faculty or Computer Labs) don&rsquo;t affect them. This is where the OU separation really pays off - IT staff can do their jobs without fighting against security policies designed for regular users.</p>
+<h4 id="standard-staff-policies">Standard Staff Policies<a hidden class="anchor" aria-hidden="true" href="#standard-staff-policies">#</a></h4>
+<p>For non-IT staff departments (HR, Academic Services, Administrative Services, Library Services, Facilities), I created a middle-ground policy:</p>
+<ul>
+<li>10-minute screen lock (tighter than Faculty because they handle more administrative data)</li>
+<li>Control Panel access blocked (they shouldn&rsquo;t be changing system settings)</li>
+<li>Run menu removed from Start Menu (reduces attack surface)</li>
+</ul>
+<p>This applies to most staff users who need to do their jobs but don&rsquo;t need administrative access to their computers. It&rsquo;s tighter than what Faculty gets but nowhere near as locked down as student computers.</p>
+<h4 id="hr--academic-services---maximum-data-protection">HR &amp; Academic Services - Maximum Data Protection<a hidden class="anchor" aria-hidden="true" href="#hr--academic-services---maximum-data-protection">#</a></h4>
+<p>These two departments got extra restrictions because they handle the most sensitive data - HR has employee SSNs and salary information, Academic Services has student records and enrollment data.</p>
+<p>I configured:</p>
+<ul>
+<li>All removable storage completely blocked (not just USB - everything)</li>
+<li>Folder redirection for Documents, Desktop, Downloads, AND Pictures (more aggressive than regular Faculty)</li>
+<li>Same 10-minute screen lock as other staff</li>
+</ul>
+<p>The more sensitive the data you have access to, the more tighter restrictions are required. Multiple folders redirected means less chance of sensitive files sitting on local drives. Complete removable storage blocking means data can&rsquo;t easily walk out the door.</p>
+<h3 id="layer-3-endpoint-hardening---computer-labs">Layer 3: Endpoint Hardening - Computer Labs<a hidden class="anchor" aria-hidden="true" href="#layer-3-endpoint-hardening---computer-labs">#</a></h3>
+<p>This is the big one. Computer labs are shared, public-facing computers with the highest risk profile:</p>
+<ul>
+<li>Students you don&rsquo;t know using them</li>
+<li>Potential for malware from downloads or USB drives</li>
+<li>System configuration changes that require reimaging</li>
+<li>Privacy concerns (previous user&rsquo;s data still accessible)</li>
+</ul>
+<p>I created a policy linked to the Computer Labs OU with maximum lockdown:</p>
+<p><strong>5-minute aggressive screen lock:</strong> Way tighter than anywhere else because these are shared computers. Student walks away for a few minutes, session needs to lock so the next person can&rsquo;t access their stuff.</p>
+<p><strong>Control Panel completely removed:</strong> Students shouldn&rsquo;t be changing display settings, uninstalling software, or accessing system configuration.</p>
+<p><strong>Command Prompt and PowerShell disabled:</strong> Prevents students from running scripts, accessing system files, or trying to bypass other restrictions.</p>
+<p><strong>Registry Editor blocked:</strong> Same reasoning - students don&rsquo;t need to modify the Windows registry.</p>
+<p><strong>Software Restriction Policies:</strong> I configured path rules to block execution of <code>.exe</code>, <code>.msi</code>, <code>.bat</code>, <code>.vbs</code>, and <code>.ps1</code> files from the Downloads folder. Students can download files for their work, but they can&rsquo;t execute them. This prevents &ldquo;I downloaded this cool program from the internet&rdquo; situations that end with malware.</p>
+<p><strong>Windows Update access removed:</strong> Students shouldn&rsquo;t be triggering Windows updates in the middle of a class period. IT controls when lab computers update.</p>
+<p>The result is a computer that students can use for legitimate schoolwork - Microsoft Office, web browsers, installed educational software - but can&rsquo;t break, infect with malware, or use to compromise other systems.</p>
+<p>Testing this was actually pretty satisfying. I moved my Windows 10 client into the Computer Labs OU, rebooted it, and tried everything:</p>
+<p>Control panel, command prompt, registry editor, and downloaded .exe files were all blocked.</p>
+<p>Every restriction worked exactly as intended. It&rsquo;s the kind of lockdown you&rsquo;d actually see in university computer labs, library public computers, or any shared endpoint environment.</p>
+<h3 id="the-pattern-that-emerged">The Pattern That Emerged<a hidden class="anchor" aria-hidden="true" href="#the-pattern-that-emerged">#</a></h3>
+<p>Looking at all these policies together, the pattern became clear: <strong>risk-based security</strong>.</p>
+<ul>
+<li>Domain-wide policies establish the baseline (everyone gets strong passwords and audit logging)</li>
+<li>Role-based policies add restrictions based on data sensitivity (Faculty protects FERPA data, HR protects PII)</li>
+<li>Endpoint-based policies account for the environment (shared computers get maximum lockdown)</li>
+<li>Privilege-based policies allow flexibility where needed (IT gets tools, everyone else doesn&rsquo;t)</li>
+</ul>
+<p>This is how you&rsquo;d actually implement GP in production. You don&rsquo;t just randomly apply policies - you think about what each group does, what data they access, what tools they need, and what the risk profile is. Then you configure policies that protect the organization while letting people do their jobs.</p>
+<h2 id="lessons-learned">Lessons Learned<a hidden class="anchor" aria-hidden="true" href="#lessons-learned">#</a></h2>
+<p>Implementing these policies taught me several things that Microsoft documentation doesn&rsquo;t really cover. These are the practical lessons that came from actually doing the work, not just reading about it.</p>
+<h3 id="ous-are-not-security-groups">OUs Are Not Security Groups<a hidden class="anchor" aria-hidden="true" href="#ous-are-not-security-groups">#</a></h3>
+<p>This was my first major confusion. I kept thinking &ldquo;I want this policy to apply to all Faculty members, so I&rsquo;ll target the All-Faculty security group.&rdquo;</p>
+<p>That&rsquo;s not how Group Policy works.</p>
+<p>GPOs link to <strong>Organizational Units</strong>, not groups. The policy applies to whatever user or computer objects physically exist in that OU. Security groups control <strong>resource permissions</strong> (who can access files, printers, etc.), not policy application.</p>
+<p>I figured this out when I tried to create a drive mapping policy &ldquo;for the All-Faculty group&rdquo; and couldn&rsquo;t find any way to target it. Eventually I realized: the policy needs to be linked to the Faculty OU, and it will apply to everyone in that OU hierarchy because they&rsquo;re physically located there in Active Directory.</p>
+<p>This changed how I thought about AD structure. The OU hierarchy isn&rsquo;t just organizational - it&rsquo;s your policy targeting mechanism.</p>
+<h3 id="computer-configuration-vs-user-configuration">Computer Configuration vs User Configuration<a hidden class="anchor" aria-hidden="true" href="#computer-configuration-vs-user-configuration">#</a></h3>
+<p>Some settings can go in either place, and I initially didn&rsquo;t understand when to use which.</p>
+<p><strong>Computer Configuration</strong> settings apply to the computer itself, regardless of who logs in:</p>
+<ul>
+<li>Machine inactivity limits (screen lock)</li>
+<li>USB restrictions</li>
+<li>Windows Update settings</li>
+<li>Software installation</li>
+</ul>
+<p><strong>User Configuration</strong> settings apply to the user, regardless of which computer they log into:</p>
+<ul>
+<li>Drive mappings</li>
+<li>Folder redirection</li>
+<li>Desktop wallpaper</li>
+<li>Application settings</li>
+</ul>
+<p>I made the mistake of putting screen lock timeout in User Configuration first. It didn&rsquo;t work. Moved it to Computer Configuration under Security Options, and suddenly it worked fine.</p>
+<p>The rule I eventually figured out: if it&rsquo;s about the physical computer or system-level security, it&rsquo;s Computer Configuration. If it&rsquo;s about the user&rsquo;s experience or their data, it&rsquo;s User Configuration.</p>
+<h3 id="policy-application-timing-is-messy">Policy Application Timing is Messy<a hidden class="anchor" aria-hidden="true" href="#policy-application-timing-is-messy">#</a></h3>
+<p>This one frustrated me for a while. I&rsquo;d configure a policy, run <code>gpupdate /force</code> on the client, and&hellip; nothing would happen. Or some things would work but others wouldn&rsquo;t.</p>
+<p>Here&rsquo;s what I learned:</p>
+<p><strong>Computer Configuration policies</strong> typically require a reboot to take effect. You can run <code>gpupdate /force</code> but until you restart the computer, many settings won&rsquo;t apply. This is especially true for USB restrictions, software restriction policies, and security settings.</p>
+<p><strong>User Configuration policies</strong> usually need you to log off and back on. Running <code>gpupdate /force</code> while staying logged in will apply some things but not others. Folder redirection, for example, only happens at logon.</p>
+<p><strong>Some policies are even more specific:</strong> Drive mappings need a fresh logon. Folder redirection not only needs a logon but also requires the target folders to already exist.</p>
+<p>The practical lesson: when testing policies, my workflow became:</p>
+<ol>
+<li>Configure the policy on the DC</li>
+<li>On the client: <code>gpupdate /force</code></li>
+<li>Reboot the client (not just log off/on)</li>
+<li>Log in as a test user</li>
+<li>Check if the policy applied</li>
+</ol>
+<p>If I skipped the reboot step, I&rsquo;d waste time troubleshooting policies that were actually configured correctly - they just hadn&rsquo;t applied yet.</p>
+<h3 id="drive-mapping-fails-silently">Drive Mapping Fails Silently<a hidden class="anchor" aria-hidden="true" href="#drive-mapping-fails-silently">#</a></h3>
+<p>This one cost me about two hours of troubleshooting.</p>
+<p>I configured a drive mapping policy for Faculty: map H: drive to <code>\\DC01\HomeDirectories$\%username%</code>. I tested it with a Faculty user, ran <code>gpupdate /force</code>, logged off and back on. No H: drive appeared.</p>
+<p>I checked the GPO settings: correct. I checked the share permissions: correct. I ran <code>gpresult /r</code> to see applied policies: the GPO was listed as applied. But still no drive.</p>
+<p>Finally I went to the DC and browsed to <code>C:\HomeDirectories</code>. The folder existed. But there was no subfolder for my test user (crwilson). The drive mapping was trying to connect to <code>\\DC01\HomeDirectories$\crwilson</code>, but that folder didn&rsquo;t exist.</p>
+<p><strong>Group Policy doesn&rsquo;t create folders automatically.</strong> It just tries to map to whatever path you specify. If the path doesn&rsquo;t exist, the mapping silently fails with no error message to the user.</p>
+<p>I manually created the folder, went back to the client, ran <code>gpupdate /force</code>, and the H: drive appeared instantly.</p>
+<p>In production, you&rsquo;d solve this with a PowerShell script that pre-creates home directories for all users with proper permissions. Or you&rsquo;d use logon scripts to create folders on-demand. But the documentation doesn&rsquo;t tell you this - it just assumes the folders exist.</p>
+<h3 id="testing-methodology-matters">Testing Methodology Matters<a hidden class="anchor" aria-hidden="true" href="#testing-methodology-matters">#</a></h3>
+<p>Early on, I&rsquo;d configure a policy, test it with one user, see it work, and assume it was good. Then I&rsquo;d test with a different user type and find it didn&rsquo;t work the same way.</p>
+<p>I learned to test systematically:</p>
+<p><strong>For each policy, test with:</strong></p>
+<ul>
+<li>A user from the target OU (should apply)</li>
+<li>A user from a different OU (should NOT apply)</li>
+<li>An admin account (should I be exempt? depends on the policy)</li>
+<li>An IT Services user (typically should be exempt from restrictions)</li>
+</ul>
+<p>This caught several issues where policies were applying too broadly or not applying where they should.</p>
+<p><strong>Also learned to check multiple ways:</strong></p>
+<ul>
+<li>Does the policy show in <code>gpresult /r</code>? (Is it being received?)</li>
+<li>Does Event Viewer show any policy errors? (Did it fail to apply?)</li>
+<li>Does the restriction actually work? (Try to violate it)</li>
+<li>Can you still do legitimate work? (Did you block too much?)</li>
+</ul>
+<h3 id="more-policies-doesnt-always-mean-more-security">More Policies Doesn&rsquo;t Always Mean More Security<a hidden class="anchor" aria-hidden="true" href="#more-policies-doesnt-always-mean-more-security">#</a></h3>
+<p>I initially went overboard creating separate GPOs for every little thing. &ldquo;Faculty USB Restrictions,&rdquo; &ldquo;Faculty Screen Lock,&rdquo; &ldquo;Faculty Drive Mapping&rdquo; - all separate policies.</p>
+<p>That became a management nightmare. Too many policies linked to the same OU, harder to troubleshoot conflicts, unclear what was actually applying.</p>
+<p>I consolidated: &ldquo;Faculty - Security Settings&rdquo; now contains screen lock, USB restrictions, and basic lockdown settings. &ldquo;Faculty - Data Protection&rdquo; contains folder redirection and drive mapping. Two policies instead of five, much easier to manage.</p>
+<p>The lesson: <strong>group related settings into logical GPOs</strong>. Don&rsquo;t create a new policy for every individual setting. Think about policies as &ldquo;bundles of related configurations&rdquo; not &ldquo;one setting per GPO.&rdquo;</p>
+<h3 id="documentation-is-your-friend">Documentation is Your Friend<a hidden class="anchor" aria-hidden="true" href="#documentation-is-your-friend">#</a></h3>
+<p>I started documenting every policy as I created it:</p>
+<ul>
+<li>What OU it&rsquo;s linked to</li>
+<li>What it does</li>
+<li>Why I configured it that way</li>
+<li>Any dependencies (like folders needing to exist)</li>
+<li>Testing notes</li>
+</ul>
+<p>This became invaluable when troubleshooting. &ldquo;Wait, why isn&rsquo;t this working? Let me check my notes&hellip; oh right, I need to reboot, not just log off.&rdquo;</p>
+<p>It&rsquo;s also made writing this blog post way easier. I&rsquo;m not trying to remember what I did three weeks ago - I have notes from when I did it.</p>
+<p>In production, this would be even more critical. Six months from now, you won&rsquo;t remember why you configured a specific setting. The next admin who inherits your environment definitely won&rsquo;t know. Document as you go.</p>
+<h2 id="the-big-picture">The Big Picture<a hidden class="anchor" aria-hidden="true" href="#the-big-picture">#</a></h2>
+<p>The biggest thing I learned: <strong>Group Policy is powerful but has a lot of gotchas that aren&rsquo;t obvious from reading documentation.</strong></p>
+<p>Things that seem like they should &ldquo;just work&rdquo; often don&rsquo;t until you understand the underlying mechanics:</p>
+<ul>
+<li>Why Computer vs User Configuration matters</li>
+<li>How OU structure determines application</li>
+<li>When policies actually take effect</li>
+<li>What dependencies exist (folders, permissions, etc.)</li>
+<li>How to properly test and verify</li>
+</ul>
+<p>That&rsquo;s the value of actually building this stuff in a lab. You hit all those edge cases, learn the troubleshooting process, and build the mental model of how it all fits together. Reading about Group Policy teaches you the settings. Implementing Group Policy teaches you the system.</p>
+<h2 id="whats-next">What&rsquo;s Next<a hidden class="anchor" aria-hidden="true" href="#whats-next">#</a></h2>
+<p>This completes the security foundation for my Active Directory environment. The policies are configured, tested, and documented. But there&rsquo;s more to explore:</p>
+<p><strong>High availability:</strong> Adding a second domain controller to test replication, FSMO roles, and failover scenarios.</p>
+<p><strong>Advanced authentication:</strong> Implementing fine-grained password policies for different user tiers, exploring certificate-based authentication.</p>
+<p><strong>Automation:</strong> Building PowerShell scripts for user provisioning, home directory creation, and compliance reporting.</p>
+<p><strong>Disaster recovery:</strong> Testing AD backup/restore procedures, practicing DSRM recovery, documenting the process.</p>
+<p>Each of these represents the next step in building enterprise-ready infrastructure. For now, I&rsquo;ve got a solid foundation: a well-structured AD environment protected by comprehensive, role-based security policies.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/active-directory/">Active Directory</a></li>
+      <li><a href="http://localhost:1313/tags/group-policy/">Group Policy</a></li>
+      <li><a href="http://localhost:1313/tags/windows-server/">Windows-Server</a></li>
+      <li><a href="http://localhost:1313/tags/homelab/">Homelab</a></li>
+      <li><a href="http://localhost:1313/tags/security/">Security</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Cory J Popp</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

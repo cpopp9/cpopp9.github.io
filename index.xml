@@ -4,10 +4,20 @@
     <title>Cory J Popp</title>
     <link>https://coryjpopp.com/</link>
     <description>Recent content on Cory J Popp</description>
-    <generator>Hugo -- 0.150.0</generator>
+    <generator>Hugo -- 0.154.1</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 13 Dec 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 02 Jan 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://coryjpopp.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Securing Active Directory with Group Policy</title>
+      <link>https://coryjpopp.com/posts/securing_active_directory_with_group_policy/</link>
+      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/posts/securing_active_directory_with_group_policy/</guid>
+      <description>&lt;p&gt;&lt;img alt=&#34;Windows Server Homelab.&#34; loading=&#34;lazy&#34; src=&#34;https://coryjpopp.com/img/Command_Prompt_Disabled.gif&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In my &lt;a href=&#34;https://coryjpopp.com/posts/building-a-production-grade-active-directory-lab/&#34;&gt;previous post&lt;/a&gt;, I built an Active Directory environment with 500+ users across 26 organizational units - modeled after a university with different schools and departments.&lt;/p&gt;
+&lt;p&gt;Building that structure was step one. But an organized AD environment without Group Policy doesn&amp;rsquo;t actually do much outside of authenticating users.&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s what this post is about: taking that AD structure and using it to implement real security policies. I configured 10 different Group Policies covering everything from domain-wide password requirements to locking down public computer labs.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Building a Production-Grade Active Directory Lab</title>
       <link>https://coryjpopp.com/posts/building-a-production-grade-active-directory-lab/</link>
