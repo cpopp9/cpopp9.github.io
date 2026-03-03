@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Windows Server on Cory J Popp</title>
+    <title>Windows-Server on Cory J Popp</title>
     <link>https://coryjpopp.com/tags/windows-server/</link>
-    <description>Recent content in Windows Server on Cory J Popp</description>
+    <description>Recent content in Windows-Server on Cory J Popp</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 02 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 01 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://coryjpopp.com/tags/windows-server/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Endpoint Management at Scale: Implementing SCCM</title>
+      <link>https://coryjpopp.com/posts/endpoint-management-at-scale-implementing-sccm-in-my-homelab/</link>
+      <pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/posts/endpoint-management-at-scale-implementing-sccm-in-my-homelab/</guid>
+      <description>&lt;p&gt;&lt;img alt=&#34;SCCM Dashboard&#34; loading=&#34;lazy&#34; src=&#34;https://coryjpopp.com/img/SCCM-Dashboard.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Figure: SCCM Dashboard displaying 7-zip deploying to my test collection&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In my &lt;a href=&#34;https://coryjpopp.com/posts/securing_active_directory_with_group_policy/&#34;&gt;previous post&lt;/a&gt;, I built a Group Policy framework that secured my &lt;a href=&#34;https://coryjpopp.com/posts/building-a-production-grade-active-directory-lab/&#34;&gt;Active Directory environment&lt;/a&gt; - locking down computer labs, enforcing password policies, redirecting user data to network storage.&lt;/p&gt;
+&lt;p&gt;That covered the security side of managing endpoints. But Group Policy alone doesn&amp;rsquo;t answer a fundamental enterprise question: how do you actually get software onto machines? How do you make sure 500 workstations are running the latest security patches? How do you know which computers are compliant and which ones aren&amp;rsquo;t?&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Securing Active Directory with Group Policy</title>
       <link>https://coryjpopp.com/posts/securing_active_directory_with_group_policy/</link>
