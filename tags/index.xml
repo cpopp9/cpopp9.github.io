@@ -6,13 +6,48 @@
     <description>Recent content in Tags on Cory J Popp</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 02 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 01 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://coryjpopp.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Active Directory</title>
       <link>https://coryjpopp.com/tags/active-directory/</link>
-      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate>
       <guid>https://coryjpopp.com/tags/active-directory/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Endpoint Management</title>
+      <link>https://coryjpopp.com/tags/endpoint-management/</link>
+      <pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/tags/endpoint-management/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Homelab</title>
+      <link>https://coryjpopp.com/tags/homelab/</link>
+      <pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/tags/homelab/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Patch Management</title>
+      <link>https://coryjpopp.com/tags/patch-management/</link>
+      <pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/tags/patch-management/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>SCCM</title>
+      <link>https://coryjpopp.com/tags/sccm/</link>
+      <pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/tags/sccm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Windows-Server</title>
+      <link>https://coryjpopp.com/tags/windows-server/</link>
+      <pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://coryjpopp.com/tags/windows-server/</guid>
       <description></description>
     </item>
     <item>
@@ -23,24 +58,10 @@
       <description></description>
     </item>
     <item>
-      <title>Homelab</title>
-      <link>https://coryjpopp.com/tags/homelab/</link>
-      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://coryjpopp.com/tags/homelab/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Security</title>
       <link>https://coryjpopp.com/tags/security/</link>
       <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
       <guid>https://coryjpopp.com/tags/security/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Windows Server</title>
-      <link>https://coryjpopp.com/tags/windows-server/</link>
-      <pubDate>Fri, 02 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://coryjpopp.com/tags/windows-server/</guid>
       <description></description>
     </item>
     <item>
@@ -125,13 +146,6 @@
       <link>https://coryjpopp.com/tags/reliability/</link>
       <pubDate>Tue, 30 Sep 2025 09:00:00 -0400</pubDate>
       <guid>https://coryjpopp.com/tags/reliability/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Endpoint Management</title>
-      <link>https://coryjpopp.com/tags/endpoint-management/</link>
-      <pubDate>Tue, 23 Sep 2025 22:19:00 -0400</pubDate>
-      <guid>https://coryjpopp.com/tags/endpoint-management/</guid>
       <description></description>
     </item>
     <item>

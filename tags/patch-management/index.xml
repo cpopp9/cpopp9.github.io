@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Endpoint Management on Cory J Popp</title>
-    <link>https://coryjpopp.com/tags/endpoint-management/</link>
-    <description>Recent content in Endpoint Management on Cory J Popp</description>
+    <title>Patch Management on Cory J Popp</title>
+    <link>https://coryjpopp.com/tags/patch-management/</link>
+    <description>Recent content in Patch Management on Cory J Popp</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 01 Feb 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://coryjpopp.com/tags/endpoint-management/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://coryjpopp.com/tags/patch-management/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Endpoint Management at Scale: Implementing SCCM</title>
       <link>https://coryjpopp.com/posts/endpoint-management-at-scale-implementing-sccm-in-my-homelab/</link>
@@ -17,13 +17,6 @@
 &lt;p&gt;&lt;em&gt;Figure: SCCM Dashboard displaying 7-zip deploying to my test collection&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;In my &lt;a href=&#34;https://coryjpopp.com/posts/securing_active_directory_with_group_policy/&#34;&gt;previous post&lt;/a&gt;, I built a Group Policy framework that secured my &lt;a href=&#34;https://coryjpopp.com/posts/building-a-production-grade-active-directory-lab/&#34;&gt;Active Directory environment&lt;/a&gt; - locking down computer labs, enforcing password policies, redirecting user data to network storage.&lt;/p&gt;
 &lt;p&gt;That covered the security side of managing endpoints. But Group Policy alone doesn&amp;rsquo;t answer a fundamental enterprise question: how do you actually get software onto machines? How do you make sure 500 workstations are running the latest security patches? How do you know which computers are compliant and which ones aren&amp;rsquo;t?&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Deploying Custom Apps with Intune via Win32</title>
-      <link>https://coryjpopp.com/posts/deploying-custom-apps-with-intune-via-win32/</link>
-      <pubDate>Tue, 23 Sep 2025 22:19:00 -0400</pubDate>
-      <guid>https://coryjpopp.com/posts/deploying-custom-apps-with-intune-via-win32/</guid>
-      <description>Testing Win32 app deployment in Intune using 7-Zip as a custom installer. A hands-on homelab experiment in automation and detection logic.</description>
     </item>
   </channel>
 </rss>
