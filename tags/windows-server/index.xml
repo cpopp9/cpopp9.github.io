@@ -6,12 +6,12 @@
     <description>Recent content in Windows-Server on Cory J Popp</description>
     <generator>Hugo -- 0.154.1</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 01 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 02 Mar 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://coryjpopp.com/tags/windows-server/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Endpoint Management at Scale: Implementing SCCM</title>
       <link>https://coryjpopp.com/posts/endpoint-management-at-scale-implementing-sccm-in-my-homelab/</link>
-      <pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 02 Mar 2026 00:00:00 +0000</pubDate>
       <guid>https://coryjpopp.com/posts/endpoint-management-at-scale-implementing-sccm-in-my-homelab/</guid>
       <description>&lt;p&gt;&lt;img alt=&#34;SCCM Dashboard&#34; loading=&#34;lazy&#34; src=&#34;https://coryjpopp.com/img/SCCM-Dashboard.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Figure: SCCM Dashboard displaying 7-zip deploying to my test collection&lt;/em&gt;&lt;/p&gt;
